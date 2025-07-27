@@ -29,6 +29,8 @@ class User extends Authenticatable
         'city',
         'zip',
         'state',
+        'About',
+        'Prof',
     ];
 
     /**
@@ -52,5 +54,29 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skills::class, 'skills_user', 'u_id', 's_id')
+            ->withPivot('level', 'years_of_experience', 'certification')
+            ->withTimestamps();
+    }
+
+    public function jobs()
+    {
+        return $this->belongsToMany(Job::class, 'job_skills', 'u_id', 'job_id')
+            ->withPivot('level', 'years_of_experience', 'certification')
+            ->withTimestamps();
+    }
+
+    public function education()
+    {
+        return $this->hasMany(Academics::class, 'us_id', 'user_id');
+    }
+
+    public function experience()
+    {
+        return $this->hasMany(Experience::class, 'xus_id', 'user_id');
     }
 }

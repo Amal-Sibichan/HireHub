@@ -50,7 +50,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control form-control-lg" id="pho" name="pho" value="{{old('pho')}}" required>
+                                        <input type="number" class="form-control form-control-lg" id="pho" name="pho" value="{{old('pho')}}" required>
                                         <label for="pho">Phone Number</label>
                                     </div>
                                     @error('pho')

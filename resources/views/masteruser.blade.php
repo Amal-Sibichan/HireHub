@@ -22,6 +22,7 @@
             <link rel="stylesheet" href="{{ asset('css/slick.css') }}">
             <link rel="stylesheet" href="{{ asset('css/nice-select.css') }}">
             <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
    </head>
 
    <body>
@@ -72,8 +73,14 @@
                                 </div>          
                                 <!-- Header-btn -->
                                 <div class="header-btn d-none f-right d-lg-block">
-                                    <a href=" {{ route('registerpage') }}" class="btn head-btn1">Register</a>
-                                    <a href="{{ route('loginpage') }}" class="btn head-btn2">Login</a>
+                                    @if(auth()->check())
+    <a href="{{ route('user.profile') }}" class="btn head-btn3">Profile</a>
+    <a href=" {{ route('logout') }}" class="btn head-btn2">Logout</a>
+    @else
+    <a href=" {{ route('registerpage') }}" class="btn head-btn1">Register</a>
+    <a href="{{ route('loginpage') }}" class="btn head-btn2">Login</a>
+@endif
+
                                 </div>
                             </div>
                         </div>
