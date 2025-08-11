@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Newcontroller;
 use App\Http\Middleware\Isloggedin;
+use App\Http\Controllers\Employer;
 Route::middleware(Isloggedin::class)->group(function () {
     Route::get('edit', [Newcontroller::class, 'edit'])->name('edit.user');
     Route::post('update', [Newcontroller::class, 'update'])->name('user.update');
@@ -12,6 +13,7 @@ Route::middleware(Isloggedin::class)->group(function () {
     Route::get('/logout', [Newcontroller::class, 'logout'])->name('logout');
     Route::post('eduupdate', [Newcontroller::class, 'storeEdu'])->name('store.edu');
     Route::post('expupdate', [Newcontroller::class, 'storeExp'])->name('store.exp');
+    Route::get('/admin', [Newcontroller::class, 'admin'])->name('admin');
 
 });
 
@@ -28,5 +30,12 @@ Route::post('/register', [Newcontroller::class, 'newuser'])->name('u.register');
 Route::get('/loginpage', [Newcontroller::class, 'loginpage'])->name('loginpage');
 Route::post('/login', [Newcontroller::class, 'login'])->name('u.login');
 
+#Employer routes
+
+
+Route::get('Eregister',[Employer::class,'Showregister'])->name('Emp.register');
+Route::post('Eregister',[Employer::class,'save'])->name('Emp.save');
+Route::get('Elogout',[Employer::class,'logout'])->name('Emp.logout');
+Route::get('Edashboard',[Employer::class,'dashboard'])->name('Emp.dashboard');
 
 

@@ -28,6 +28,7 @@
                                         <div class="text-danger small mt-1">{{ $message }}</div>
                                     @enderror
 			<button onclick="">Sign Up</button>
+			<a href="{{route('Emp.register')}}">Register Organization </a>
 		</form>
 	</div>
 	<div class="form-container sign-in-container">

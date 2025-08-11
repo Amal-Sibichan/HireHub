@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\Skills;
 use App\Models\Academics;
 use App\Models\Experience;
+use App\Models\Organization;
 
 
 use Illuminate\Http\Request;
@@ -21,6 +22,15 @@ class Newcontroller extends Controller
    {
       $user = session('user');
       return view('index', compact('user'));
+   }
+
+   public function admin()
+   {
+      $user = User::take(5)->get();
+      $usercount = User::count();
+      $orgcount = Organization::count();
+      $org = Organization::all();
+      return view('admin.admindashboard', compact('user', 'org','usercount','orgcount'));
    }
    public function job_listing()
    {
@@ -99,9 +109,19 @@ class Newcontroller extends Controller
      $user = User::where('email', $mail)->first();
      if(Auth::attempt(['email'=>$mail,'password'=>$pass]))
      {
-      return redirect()->route('index')->with('message','Login sucessfully');
+       if ($user->Role == 'Admin') {
+        return redirect()->route('admin');
+       }
+       else
+       {
+        return redirect()->route('index')->with('message','Login sucessfully');
+       }
     //   return view('index', compact('user'));
      }
+     else if(Auth::guard('Organization')->attempt(['email' => $mail, 'password' => $pass])) 
+     {
+        return redirect()->route('Emp.dashboard');
+    }
      else
      {
       return back()->withErrors([
@@ -112,7 +132,7 @@ class Newcontroller extends Controller
    public function logout()
    {
     Auth::logout();
-    return redirect()->route('loginpage')->with('message','Logout sucessfully');
+    return redirect()->route('index')->with('message','Logout sucessfully');
    }
 
 
