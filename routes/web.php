@@ -35,7 +35,5 @@ Route::post('/login', [Newcontroller::class, 'login'])->name('u.login');
 
 Route::get('Eregister',[Employer::class,'Showregister'])->name('Emp.register');
 Route::post('Eregister',[Employer::class,'save'])->name('Emp.save');
-Route::get('Elogout',[Employer::class,'logout'])->name('Emp.logout');
-Route::get('Edashboard',[Employer::class,'dashboard'])->name('Emp.dashboard');
 
 
