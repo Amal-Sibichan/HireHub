@@ -9,7 +9,7 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="hero-cap text-center">
-                            <h2>UI/UX Designer</h2>
+                            <h2>{{$jobs->name}}</h2>
                         </div>
                     </div>
                 </div>
@@ -27,16 +27,16 @@
                         <div class="single-job-items mb-50">
                             <div class="job-items">
                                 <div class="company-img company-img-details">
-                                    <a href="#"><img src="{{ asset('img/icon/job-list1.png') }}" alt=""></a>
+                                    <a href="#"><img src="{{ asset('storage/' . $jobs->Organization->logo) }}" width="100" height="100" alt=""></a>
                                 </div>
                                 <div class="job-tittle">
                                     <a href="#">
-                                        <h4>Digital Marketer</h4>
+                                        <h4>{{$jobs->name}}</h4>
                                     </a>
                                     <ul>
-                                        <li>Creative Agency</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                        <li>$3500 - $4000</li>
+                                        <li>{{$jobs->Organization->name}}</li>
+                                        <li><i class="fas fa-map-marker-alt"></i>{{$jobs->city}}</li>
+                                        <li>{{$jobs->salary}}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -49,7 +49,7 @@
                                 <div class="small-section-tittle">
                                     <h4>Job Description</h4>
                                 </div>
-                                <p>It is a long established fact that a reader will beff distracted by vbthe creadable content of a page when looking at its layout. The pointf of using Lorem Ipsum is that it has ahf mcore or-lgess normal distribution of letters, as opposed to using, Content here content here making it look like readable.</p>
+                                <p>{{$jobs->description}}</p>
                             </div>
                             <div class="post-details2  mb-50">
                                  <!-- Small Section Tittle -->
@@ -57,11 +57,9 @@
                                     <h4>Required Knowledge, Skills, and Abilities</h4>
                                 </div>
                                <ul>
-                                   <li>System Software Development</li>
-                                   <li>Mobile Applicationin iOS/Android/Tizen or other platform</li>
-                                   <li>Research and code , libraries, APIs and frameworks</li>
-                                   <li>Strong knowledge on software development life cycle</li>
-                                   <li>Strong problem solving and debugging skills</li>
+                                   @foreach($skills as $x)
+                                   <li>{{$x}}</li>
+                                   @endforeach
                                </ul>
                             </div>
                             <div class="post-details2  mb-50">
@@ -70,11 +68,9 @@
                                     <h4>Education + Experience</h4>
                                 </div>
                                <ul>
-                                   <li>3 or more years of professional design experience</li>
-                                   <li>Direct response email experience</li>
-                                   <li>Ecommerce website design experience</li>
-                                   <li>Familiarity with mobile and web apps preferred</li>
-                                   <li>Experience using Invision a plus</li>
+                               @foreach($exp as $x)
+                                   <li>{{$x}}</li>
+                                   @endforeach
                                </ul>
                             </div>
                         </div>
@@ -88,12 +84,11 @@
                                <h4>Job Overview</h4>
                            </div>
                           <ul>
-                              <li>Posted date : <span>12 Aug 2019</span></li>
-                              <li>Location : <span>New York</span></li>
-                              <li>Vacancy : <span>02</span></li>
+                              <li>Posted date : <span>{{$jobs->created_at->toFormattedDateString()}}</span></li>
+                              <li>Location : <span>{{$jobs->city}}</span></li>
                               <li>Job nature : <span>Full time</span></li>
-                              <li>Salary :  <span>$7,800 yearly</span></li>
-                              <li>Application date : <span>12 Sep 2020</span></li>
+                              <li>Salary :  <span>${{$jobs->salary}}monthly</span></li>
+                              <li>Application date : <span>{{\Carbon\Carbon::parse($jobs->due)->toFormattedDateString()}}</span></li>
                           </ul>
                          <div class="apply-btn2">
                             <a href="#" class="btn">Apply Now</a>
@@ -104,12 +99,12 @@
                            <div class="small-section-tittle">
                                <h4>Company Information</h4>
                            </div>
-                              <span>Colorlib</span>
-                              <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                              <span>{{$jobs->Organization->name}}</span>
+                              <p>{{$jobs->Organization->description}}</p>
                             <ul>
-                                <li>Name: <span>Colorlib </span></li>
+                                <li>Name: <span>{{$jobs->Organization->name}} </span></li>
                                 <li>Web : <span> colorlib.com</span></li>
-                                <li>Email: <span>carrier.colorlib@gmail.com</span></li>
+                                <li>Email: <span>{{$jobs->Organization->email}}</span></li>
                             </ul>
                        </div>
                     </div>

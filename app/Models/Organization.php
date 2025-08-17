@@ -18,10 +18,12 @@ class Organization extends Authenticatable
         'address',
         'website',
         'logo',
+        'city',
+        'state',
         'identity',
         'description',
         'password',
-        'is_approved'
+        'is_approved',
     ];
 
     protected $hidden = [
@@ -34,8 +36,14 @@ class Organization extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'is_approved' => 'boolean',
+            'is_approved' => 'string',
         ];
+    }
+
+
+    public function Jobs()
+    {
+        return $this->hasMany(Job::class, 'org_id');
     }
 }
 

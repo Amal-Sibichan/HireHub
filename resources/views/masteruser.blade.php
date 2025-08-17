@@ -10,6 +10,7 @@
 		<link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}">
 
 		<!-- CSS here -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
             <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
             <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
             <link rel="stylesheet" href="{{ asset('css/flaticon.css') }}">
@@ -56,6 +57,7 @@
                                 <!-- Main-menu -->
                                 <div class="main-menu">
                                     <nav class="d-none d-lg-block">
+                                    @if(auth()->check())
                                         <ul id="navigation">
                                             <li><a href=" {{ route('index') }}">Home</a></li>
                                             <li><a href=" {{ route('job_listing') }}">Find a Jobs </a></li>
@@ -65,22 +67,41 @@
                                                     <li><a href=" {{ route('blog') }}">Blog</a></li>
                                                     <li><a href=" {{ route('single_blog') }}">Blog Details</a></li>
                                                     <li><a href=" {{ route('elements') }}">Elements</a></li>
-                                                    <li><a href=" {{ route('job_details') }}">job Details</a></li>
+                                                    <li><a href="#">job Details</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href=" {{ route('contact') }}">Contact</a></li>
                                         </ul>
+                                    @else
+                                    <ul id="navigation">
+                                            <li><a href=" {{ route('Emp.dashboard') }}">Home</a></li>
+                                            <li><a href=" #">Listed jobs</a></li>
+                                            <li><a href="#">Page</a>
+                                                <ul class="submenu">
+                                                    <li><a href="#">Feedback</a></li>
+                                                    <li><a href="#">photos</a></li>
+                                                    <li><a href="#">Elements</a></li>
+                                                    <li><a href="#">job Details</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="#">Contact</a></li>
+                                        </ul>
+
+                                    @endif
                                     </nav>
                                 </div>          
                                 <!-- Header-btn -->
                                 <div class="header-btn d-none f-right d-lg-block">
                                     @if(auth()->check())
-    <a href="{{ route('user.profile') }}" class="btn head-btn3">Profile</a>
-    <a href=" {{ route('logout') }}" class="btn head-btn2">Logout</a>
-    @else
-    <a href=" {{ route('registerpage') }}" class="btn head-btn1">Register</a>
-    <a href="{{ route('loginpage') }}" class="btn head-btn2">Login</a>
-@endif
+                                         <a href="{{ route('user.profile') }}" class="btn head-btn3">Profile</a>
+                                         <a href=" {{ route('logout') }}" class="btn head-btn2">Logout</a>
+                                    @elseif(auth()->guard('Organization')->check())
+                                         <a href="{{ route('Emp.profile') }}" class="btn head-btn3">Profile</a>
+                                         <a href=" {{ route('Emp.logout') }}" class="btn head-btn2">Logout</a>
+                                    @else
+                                         <a href=" {{ route('registerpage') }}" class="btn head-btn1">Register</a>
+                                         <a href="{{ route('loginpage') }}" class="btn head-btn2">Login</a>
+                                    @endif
 
                                 </div>
                             </div>

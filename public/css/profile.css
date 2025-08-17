@@ -7,7 +7,7 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    background-color: #d8dde3;
+    background-color: #9ca0a5;
 }
 
 .hero-background {
@@ -192,7 +192,7 @@ textarea {
 }
 
 .btn:hover {
-    background-color: #001987;
+    background-color: #acacaf;
 }
 
 .btn-cancel {

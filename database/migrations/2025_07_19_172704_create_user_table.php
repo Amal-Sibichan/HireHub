@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('resume')->nullable();
             $table->bigInteger('phone')->nullable();
+            $table->string('About',1000)->nullable();
+            $table->string('Prof',20)->nullable();
             $table->string('address',50)->nullable();
             $table->string('city',50)->nullable();
             $table->string('state',50)->nullable();

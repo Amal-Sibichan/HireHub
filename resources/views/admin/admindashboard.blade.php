@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="{{asset('css/admin.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -76,9 +77,14 @@
                     </a>
                 </div>
             </header>
-
+           
             <!-- Dashboard Content -->
             <div class="dashboard-content">
+            
+            @if(session('message'))
+               {{session('message')}}
+            @endif
+            
                 <!-- Stats Cards -->
                 <div class="stats-grid">
                     <a href="#users" class="stat-card">
@@ -143,15 +149,38 @@
                                 </div>
                                 <div class="org-details">
                                     <p class="org-name">{{$org->name}}</p>
-                                    <span class="org-members">{{$org->user_id}}</span>
+                                    <span class="org-members">{{$org->org_id}}</span>
                                 </div>
+                                @if ($org->is_approved ==='approved')
+                                     <div class="user-status">
+                                       
+                                         <span class="status-dot active"></span>
+                                         <span class="text-success">Approved</span>
+                                     </div>
+                                 @elseif($org->is_approved ==='waiting')
+                                     <div class="user-status">
+                                     <span class="status-dot waiting"></span>
+                                     <span class="text-warning">waiting</span>
+                                     <a href="{{route('Orgdetials',['id' => $org->org_id])}}" class="btn btn-warning" role="button" >View</a>
+
+                                     </div>
+                                 @else
+                                  <div class="user-status">
+                                  <span class="status-dot primary"></span>
+                                  <span class="text-warning">Ideal</span>
+                                     <a href="{{route('Orgdetials',['id' => $org->org_id])}}" class="btn btn-primary" role="button" >View</a>
+                                     </div>
+
+                                 @endif
                             </div>
+                          
                             @endforeach
                         </div>
                         <button class="more-button">View All Organizations</button>
                     </div>
                 </div>
             </div>
+           
         </main>
     </div>
 </body>

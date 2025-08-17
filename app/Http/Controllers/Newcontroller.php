@@ -6,8 +6,8 @@ use App\Models\Skills;
 use App\Models\Academics;
 use App\Models\Experience;
 use App\Models\Organization;
-
-
+use App\Models\Job
+;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,11 +18,33 @@ use Mockery\Generator\StringManipulation\Pass\Pass;
 use phpDocumentor\Reflection\Types\Mixed_;
 class Newcontroller extends Controller
 {
+
+    #.........................................Index.....................................#
    public function index()
    {
-      $user = session('user');
-      return view('index', compact('user'));
+      $user = Auth::user();
+      $jobs= Job::with('Organization')->get();
+      $emp = Auth::guard('Organization')->user();
+      if ($user) {
+        if ($user->Role == 'Admin') {
+            return redirect()->route('admin');
+         }
+         else
+         {
+            return view('index',compact('jobs'));
+         }
+      }
+      elseif ($emp)
+      {
+         return redirect()->route('Emp.dashboard');
+      }
+      else
+      {
+         return view('index',compact('jobs'));
+      }
+
    }
+    #.........................................Admin dashboard.....................................#
 
    public function admin()
    {
@@ -32,38 +54,53 @@ class Newcontroller extends Controller
       $org = Organization::all();
       return view('admin.admindashboard', compact('user', 'org','usercount','orgcount'));
    }
+
+
+    #.........................................Job_listing.....................................#
+
    public function job_listing()
    {
     return view('job_listing');
    }
+
+    #.........................................About_us.....................................#
+
    public function about()
    {
     return view('about');
    }
-   public function blog()
+
+    #.........................................***.....................................#
+
+
+
+
+    #.........................................Job_Detials.....................................#
+
+   public function job_details($id)
    {
-    return view('blog');
+    $jobs= Job::with('Organization')->findOrFail($id);
+    $skills=preg_split('/\r\n|\r|\n/',$jobs->skills);
+    $exp=preg_split('/\r\n|\r|\n/',$jobs->Education);
+    return view('job_details', compact('jobs','skills','exp'));
    }
-   public function single_blog()
-   {
-    return view('single_blog');
-   }
-   public function elements()
-   {
-    return view('elements');
-   }
-   public function job_details()
-   {
-    return view('job_details');
-   }
+
+
+
+
    public function contact()
    {
     return view('contact');
    }
+
+     #.........................................Show-register page.....................................#
+
    public function registerpage()
    {
       return view('login', ['registerView' => true]);
    }
+
+    #.........................................Create User.....................................#
 
    public function newuser(Request $request)
    {
@@ -93,11 +130,15 @@ class Newcontroller extends Controller
       return redirect()->route('loginpage')->with('message','Registered sucessfully');
    }
 
+#......................................Show Login........................................#
 
    public function loginpage()
    {
     return view('login');
    }
+
+#......................................User Login........................................#
+
    public function login(Request $request)
    {
       $request->validate([
@@ -129,6 +170,9 @@ class Newcontroller extends Controller
       ]);
      }
    }
+
+    #................................User Logout..............................................#
+
    public function logout()
    {
     Auth::logout();
@@ -136,6 +180,7 @@ class Newcontroller extends Controller
    }
 
 
+ #.....................................Show Edit User.........................................#
 
    public function edit()
    {
@@ -147,6 +192,7 @@ class Newcontroller extends Controller
        return view('edit', compact('user', 'allSkills'));
    }
 
+#......................................Show User profile........................................#
 
 
    public function Userprofile()
@@ -161,7 +207,8 @@ class Newcontroller extends Controller
    }
    
 
-                                              //UPDTAE USER PROFILE
+    #..........................................Update User ....................................#
+                                            
 
    public function update(Request $update)
    {
@@ -190,6 +237,7 @@ class Newcontroller extends Controller
        return redirect()->route('edit.user', encrypt($uid))->with('message','Updated sucessfully');
    }
 
+    #................................. Show Update  Education page.............................................#
 
    public function updateEdu()
    {   
@@ -202,6 +250,7 @@ class Newcontroller extends Controller
        return view('userEducation', compact('user', 'allSkills'));
    }
 
+#................................. Update  Education .............................................#
 
    public function storeEdu(Request $edu)
    {
@@ -228,6 +277,9 @@ class Newcontroller extends Controller
 
    }
 
+
+       #..................................... show Update  Experience page.............................................#
+
    public function updateExp()
    {   
 
@@ -238,6 +290,7 @@ class Newcontroller extends Controller
        
        return view('userExperience', compact('user', 'allSkills'));
    }
+ #.....................................Update  Education ...............................................#
 
 public function storeExp(Request $exp)
 {
@@ -263,9 +316,28 @@ public function storeExp(Request $exp)
     return redirect()->route('update.exp')->with('message','Updated sucessfully');
 }
 
+#................................. Employer Approvel.............................................#
 
 
+public function Approve($value, $id)
+{
+    $org = Organization::findOrFail($id);
+    $message = '';
 
+    if ($value === '1') {
+        $org->update([
+            'is_approved' => 'approved',
+        ]);
+        $message = 'Organization approved successfully';
+    } elseif ($value === '0') {
+        $org->update([
+            'is_approved' => 'rejected',
+        ]);
+        $message = 'Organization rejected successfully';
+    }
+    
+    return redirect()->back()->with('message', $message);
+}
 
 
 

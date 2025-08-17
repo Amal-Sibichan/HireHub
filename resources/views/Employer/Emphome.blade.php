@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="{{asset('css/admin.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+
 </head>
 <body>
     <div class="dashboard-container">
@@ -38,7 +41,7 @@
                     <li>
                         <a href="#reports">
                             <i class="fas fa-chart-bar"></i>
-                            <span>Reports</span>
+                            <span>reports</span>
                         </a>
                     </li>
                     <li>
@@ -67,7 +70,7 @@
                             <span class="notification-badge">3</span>
                         </div>
                     </a>
-                    <a href="#profile" class="profile-link">
+                    <a href="{{route('Emp.profile')}}" class="profile-link">
                         <div class="profile-pic">
                             <i class="fas fa-user-circle"></i>
                         </div>
@@ -77,6 +80,12 @@
 
             <!-- Dashboard Content -->
             <div class="dashboard-content">
+            @if(session('message'))
+               <div class="alert alert-success alert-dismissible" role="alert">
+                   {{ session('message') }}
+                   <button type="button" class="btn-close" onclick="" aria-label="Close"></button>
+               </div>
+            @endif
                 <!-- Stats Cards -->
                 <div class="stats-grid">
                     <a href="#Posts" class="stat-card">
@@ -86,11 +95,10 @@
                             <p>Posts</p>
                         </div>
                     </a>
-                    <a href="#orders" class="stat-card">
+                    <a href="{{route('Emp.jobform')}}" class="stat-card">
                         <div class="stat-card">
-                            <i class="fas fa-shopping-cart"></i>
-                            <h3>345</h3>
-                            <p>New Orders</p>
+                            <i class="fa-solid fa-plus"></i>
+                            <p>New job</p>
                         </div>
                     </a>
                     <a href="#Applicants" class="stat-card">
