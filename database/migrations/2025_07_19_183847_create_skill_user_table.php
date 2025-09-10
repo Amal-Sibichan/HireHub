@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('skill_user', function (Blueprint $table) {
+        Schema::create('skills_user', function (Blueprint $table) {
             $table->bigIncrements('su_id');
-            $table->foreignId('u_id')->constrained('user', 'user_id')->onDelete('cascade');
+            $table->foreignId('u_id')->constrained('users', 'user_id')->onDelete('cascade');
             $table->foreignId('s_id')->constrained('skills', 's_id')->onDelete('cascade');
             $table->string('level', 20)->nullable(); // Optional: to store the level of the skill
             $table->string('years_of_experience', 10)->nullable(); // Optional: to store years of experience with the skill

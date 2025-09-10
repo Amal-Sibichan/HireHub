@@ -6,11 +6,13 @@
          <title>Job board HTML-5 Template </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="manifest" href="site.webmanifest">
 		<link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}">
 
 		<!-- CSS here -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+         
+             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
             <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
             <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
             <link rel="stylesheet" href="{{ asset('css/flaticon.css') }}">
@@ -24,6 +26,8 @@
             <link rel="stylesheet" href="{{ asset('css/nice-select.css') }}">
             <link rel="stylesheet" href="{{ asset('css/style.css') }}">
             <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+            <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
             
    </head>
 
@@ -49,7 +53,7 @@
                         <div class="col-lg-3 col-md-2">
                             <!-- Logo -->
                             <div class="logo">
-                                <a href=" {{ route('index') }}"><img src="{{ asset('img/logo/logo.png') }}" alt=""></a>
+                                <a href="{{ route('index') }}" class="nav-link"><img src="{{ asset('img/logo/logo.png') }}" alt=""></a>
                             </div>  
                         </div>
                         <div class="col-lg-9 col-md-9">
@@ -59,9 +63,9 @@
                                     <nav class="d-none d-lg-block">
                                     @if(auth()->check())
                                         <ul id="navigation">
-                                            <li><a href=" {{ route('index') }}">Home</a></li>
-                                            <li><a href=" {{ route('job_listing') }}">Find a Jobs </a></li>
-                                            <li><a href=" {{ route('about') }}">About</a></li>
+                                            <li><a href="#" data-url="{{ route('index') }}" class="nav-link dynamic-link">Home</a></li>
+                                            <li><a href="#" data-url="{{ route('job_listing') }}" class="nav-link dynamic-link">Find a Jobs </a></li>
+                                            <li><a href=" {{ route('about') }}" class="nav-link">About</a></li>
                                             <li><a href="#">Page</a>
                                                 <ul class="submenu">
                                                     <li><a href=" {{ route('blog') }}">Blog</a></li>
@@ -93,11 +97,11 @@
                                 <!-- Header-btn -->
                                 <div class="header-btn d-none f-right d-lg-block">
                                     @if(auth()->check())
-                                         <a href="{{ route('user.profile') }}" class="btn head-btn3">Profile</a>
-                                         <a href=" {{ route('logout') }}" class="btn head-btn2">Logout</a>
+                                         <a href="#" data-url="{{ route('user.profile') }}" class="btn head-btn3 dynamic-link">Profile</a>
+                                         <a href="{{ route('logout') }}" class="btn head-btn2">Logout</a>
                                     @elseif(auth()->guard('Organization')->check())
-                                         <a href="{{ route('Emp.profile') }}" class="btn head-btn3">Profile</a>
-                                         <a href=" {{ route('Emp.logout') }}" class="btn head-btn2">Logout</a>
+                                         <a href="#" data-url="{{ route('user.profile') }}" class="btn head-btn3 dynamic-link">Profile</a>
+                                         <a href="{{ route('Emp.logout') }}" class="btn head-btn2">Logout</a>
                                     @else
                                          <a href=" {{ route('registerpage') }}" class="btn head-btn1">Register</a>
                                          <a href="{{ route('loginpage') }}" class="btn head-btn2">Login</a>
@@ -116,84 +120,26 @@
        </div>
         <!-- Header End -->
     </header>
-    @yield('content')
-    <footer>
-        <!-- Footer Start-->
-        <div class="footer-area footer-bg footer-padding">
-            <div class="container">
-                <div class="row d-flex justify-content-between">
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                       <div class="single-footer-caption mb-50">
-                         <div class="single-footer-caption mb-30">
-                            <!-- Add JS files here -->
-                            <script src="{{ asset('js/vendor/modernizr-3.5.0.min.js') }}"></script>
-                            <script src="{{ asset('js/vendor/jquery-1.12.4.min.js') }}"></script>
-                            <script src="{{ asset('js/popper.min.js') }}"></script>
-                            <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-                            <script src="{{ asset('js/jquery.slicknav.min.js') }}"></script>
-                            <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
-                            <script src="{{ asset('js/slick.min.js') }}"></script>
-                            <script src="{{ asset('js/wow.min.js') }}"></script>
-                            <script src="{{ asset('js/animated.headline.js') }}"></script>
-                            <script src="{{ asset('js/jquery.magnific-popup.js') }}"></script>
-                            <script src="{{ asset('js/gijgo.min.js') }}"></script>
-                            <script src="{{ asset('js/jquery.nice-select.min.js') }}"></script>
-                            <script src="{{ asset('js/jquery.sticky.js') }}"></script>
-                            <script src="{{ asset('js/contact.js') }}"></script>
-                            <script src="{{ asset('js/jquery.form.js') }}"></script>
-                            <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
-                            <script src="{{ asset('js/mail-script.js') }}"></script>
-                            <script src="{{ asset('js/jquery.ajaxchimp.min.js') }}"></script>
-                            <script src="{{ asset('js/jquery.easypiechart.min.js') }}"></script>
-                            <script src="{{ asset('js/jquery.counterup.min.js') }}"></script>
-                            <script src="{{ asset('js/waypoints.min.js') }}"></script>
-                            <script src="{{ asset('js/jquery.countdown.min.js') }}"></script>
-                            <script src="{{ asset('js/jquery.scrollUp.min.js') }}"></script>
-                            <script src="{{ asset('js/price_rangs.js') }}"></script>
-                            <script src="{{ asset('js/main.js') }}"></script>
-                        </div>
-                         </div>
-                       </div>
-                    </div>
-                        </div>
-                    </div>
-                </div>
-               
-            </div>
-        </div>
-        <!-- footer-bottom area -->
-        <div class="footer-bottom-area footer-bg">
-            <div class="container">
-                <div class="footer-border">
-                     <div class="row d-flex justify-content-between align-items-center">
-                         <div class="col-xl-10 col-lg-10 ">
-                             <div class="footer-copy-right">
-                                 <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-                             </div>
-                         </div>
-                         <div class="col-xl-2 col-lg-2">
-                             <div class="footer-social f-right">
-                                 <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                 <a href="#"><i class="fab fa-twitter"></i></a>
-                                 <a href="#"><i class="fas fa-globe"></i></a>
-                                 <a href="#"><i class="fab fa-behance"></i></a>
-                             </div>
-                         </div>
-                     </div>
-                </div>
-            </div>
-        </div>
-        <!-- Footer End-->
-    </footer>
+    <main>
+    <div id="user-content">
 
+    </div>
+    </main>
   <!-- JS here -->
-	
+        
+	    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+        <script > const routes={
+            edu_url:"{{ route('update.edu')}}",
+            exp_url:"{{ route('update.exp')}}",
+            prof_url:"{{route('edit.user')}}",
+            store_edu:"{{route('store.edu')}}",
+            index:"{{route('index')}}"
+        };</script>
+        <script src="{{ asset('js/ajx.js') }}"></script>
 		<!-- All JS Custom Plugins Link Here here -->
         <script src="{{ asset('js/vendor/modernizr-3.5.0.min.js') }}"></script>
 		<!-- Jquery, Popper, Bootstrap -->
-		<script src="{{ asset('js/vendor/jquery-1.12.4.min.js') }}"></script>
         <script src="{{ asset('js/popper.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 	    <!-- Jquery Mobile Menu -->
@@ -224,6 +170,5 @@
 		<!-- Jquery Plugins, main Jquery -->	
         <script src="{{ asset('js/plugins.js') }}"></script>
         <script src="{{ asset('js/main.js') }}"></script>
-        
     </body>
 </html>

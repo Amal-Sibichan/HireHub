@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('Experience', function (Blueprint $table) {
+        Schema::create('Experiences', function (Blueprint $table) {
             $table->bigIncrements('ex_id');
             $table->bigInteger('xus_id')->unsigned();
             $table->foreign('xus_id')->references('user_id')->on('users')->onDelete('cascade');
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->date('end')->nullable();
             $table->timestamps();
         });
-        Db::statement('ALTER TABLE Experience AUTO_INCREMENT =4000;');
+        Db::statement('ALTER TABLE Experiences AUTO_INCREMENT =4000;');
     }
 
     /**

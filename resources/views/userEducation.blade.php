@@ -1,20 +1,10 @@
-@extends('masteruser')
-    @section('content')
 
-    <div class="container">
-    @if(session('message'))
-    <div class="alert alert-success">
-        {{ session('message') }}
-    </div>
-@endif
         <div class="edit-form">
-            <h1>Edit Profile</h1>
-            
-            <form class="needs-validation" novalidate action="{{route('store.edu')}}" method='post' enctype="multipart/form-data">
+            <form class="needs-validation" novalidate action="" method='post' enctype="multipart/form-data" id="Educationform">
             @csrf
                 <div class="form-section">
                     <input type="hidden" name="user_id" value="{{encrypt($user->user_id)}}">
-                    <h2 class="section-title">Education</h2>
+                    <h1 class="section-title">Education</h1>
                     <div id="educationList">
                         <div class="education-item">
                             <div class="form-group">
@@ -68,9 +58,41 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn">Save Changes</button>
-                    <a href="{{ route('user.profile', encrypt(auth()->user()->user_id)) }}" class="btn btn-cancel">Cancel</a>
+                    <button type="button" class="btn btn-cancel" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">Cancel</span>
+                    </button>
                 </div>
             </form>
         </div>
     </div>
-@endsection
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+ $('#Educationform').on('submit',function(e){   
+    $('.text-danger').text('');
+    e.preventDefault();
+    jQuery.ajax({
+        url:"{{route('store.edu')}}",
+        data:jQuery('#Educationform').serialize(),
+        type:'post',
+        success:function(result){
+            $('#model').modal('hide');
+            $("#user-content").load("{{ route('user.profile') }}");
+            setTimeout(function() {
+                $('#message').html('<div class="alert alert-success">'+result.success+'</div>').fadeOut('slow'); 
+            }, 1000);
+
+        },
+        error:function(xhr){
+            if(xhr.status === 422){
+                let errors = xhr.responseJSON.errors;
+                $.each(errors, function(key, value) {
+                    $(`[name="${key}"]`).after(`<span class="text-danger">${value[0]}</span>`);
+                });
+            }
+        }
+    })
+});
+})
+</script>

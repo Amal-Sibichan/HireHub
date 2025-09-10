@@ -12,9 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('Job', function (Blueprint $table) {
+        Schema::create('Jobs', function (Blueprint $table) {
             $table->bigIncrements('j_id');
-            $table->bigInteger('org_id');
+            $table->bigInteger('org_id')->unsigned()->nullable();
+            $table->foreign('org_id')->references('org_id')->on('Organizations')->onDelete('cascade');
             $table->string('name');
             $table->text('description');
             $table->text('skills');
@@ -27,7 +28,7 @@ return new class extends Migration
             $table->date('due');
             $table->timestamps();
         });
-        Db::statement('ALTER TABLE Job AUTO_INCREMENT =2000;');
+        Db::statement('ALTER TABLE Jobs AUTO_INCREMENT =2000;');
     }
 
     /**
@@ -35,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('Job');
+        Schema::dropIfExists('Jobs');
     }
 };

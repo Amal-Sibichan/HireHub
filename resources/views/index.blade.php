@@ -1,13 +1,8 @@
-
-@extends('masteruser')
-    @section('content')
-    <main>
-
-        <!-- slider Area Start-->
+<!-- slider Area Start-->
         <div class="slider-area hero-background">
             <!-- Mobile Menu -->
             <div class="slider-active">
-                <div class="single-slider slider-height d-flex align-items-center" data-background="{{ asset('img/v.jpg') }}" >
+                <div class="single-slider slider-height d-flex align-items-center"  >
                         <div class="container">
                         <div class="row">
                             <div class="col-xl-6 col-lg-9 col-md-10">
@@ -167,7 +162,7 @@
                         <div class="cv-caption text-center">
                             <p class="pera1">FEATURED TOURS Packages</p>
                             <p class="pera2"> Make a Difference with Your Online Resume!</p>
-                            <a href="#" class="border-btn2 border-btn4">Upload your cv</a>
+                            <a href="#" class="border-btn2 border-btn4" acce>Upload your cv</a>
                         </div>
                     </div>
                 </div>
@@ -197,7 +192,7 @@
                             <a href="#"><img src="{{ asset('storage/' . $job->Organization->logo) }}" width="100" height="100" alt=""></a>
                                 </div>
                                 <div class="job-tittle">
-                                    <a href="#"><h4>{{$job->name}},{{$job->j_id}}</h4></a>
+                                    <a href="#"><h4>{{$job->name}}</h4></a>
                                     <ul>
                                         <li>{{$job->Organization->name}}</li>
                                         <li><i class="fas fa-map-marker-alt"></i>{{$job->city}}</li>
@@ -206,7 +201,7 @@
                                 </div>
                             </div>
                             <div class="items-link f-right">
-  <a href="{{ route('job_details',['id' => $job->j_id])}}">Full Time</a>
+  <a href="#" data-url="{{ route('job_details',['id' => $job->j_id])}}" class="dynamic-link">View Details</a>
                               
                                 <span>7 hours ago</span>
                             </div>
@@ -356,8 +351,4 @@
                 </div>
             </div>
         </div>
-        <!-- Blog Area End -->
-
-    </main>
-    @endsection
-    
+   

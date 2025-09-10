@@ -1,10 +1,9 @@
-@extends('masteruser')
-    @section('content')
+
     <div class="container">
         <div class="edit-form">
             <h1>Edit Profile</h1>
             
-            <form class="needs-validation" novalidate action="{{route('user.update')}}" method='post' enctype="multipart/form-data">
+            <form class="needs-validation" novalidate action="{{route('user.update')}}" method='post' enctype="multipart/form-data" id="profileform">
                 @csrf
                 <div class="form-section">
                     <h2 class="section-title">Basic Information</h2>
@@ -76,16 +75,41 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn">Save Changes</button>
-                    <a href="{{ route('user.profile', encrypt(auth()->user()->user_id)) }}" class="btn btn-cancel">Cancel</a>
+                    <button type="button" class="btn btn-cancel" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">Cancel</span>
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
-    <script>
-        document.getElementById('profileForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Profile updated successfully!');
-        });
-    </script>
-@endsection
+    <script type="text/javascript">
+$(document).ready(function() {
+
+ $('#profileform').on('submit',function(e){
+    $('.text-danger').text('');
+    e.preventDefault();
+    jQuery.ajax({
+        url:"{{route('user.update')}}",
+        data:jQuery('#profileform').serialize(),
+        type:'post',
+        success:function(result){
+            $('#model').modal('hide');
+            setTimeout(function() {
+                $('#message').html('<div class="alert alert-success">'+result.success+'</div>').fadeOut('slow'); 
+            }, 500);
+            $("#user-content").load("{{ route('user.profile') }}");
+        },
+        error:function(xhr){
+            if(xhr.status === 422){
+                let errors = xhr.responseJSON.errors;
+                $.each(errors, function(key, value) {
+                    $(`[name="${key}"]`).after(`<span class="text-danger">${value[0]}</span>`);
+                });
+            }
+        }
+    })
+});
+})
+</script>
+

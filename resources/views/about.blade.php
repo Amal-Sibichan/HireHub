@@ -1,5 +1,4 @@
-@extends('masteruser')
-    @section('content')
+
     <main>
 
         <!-- Hero Area Start-->
@@ -236,4 +235,3 @@
         <!-- Blog Area End -->
 
     </main>
-  @endsection

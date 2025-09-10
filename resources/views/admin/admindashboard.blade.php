@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="{{asset('css/admin.css')}}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="base-url" content="{{ url('/') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 </head>
 <body>
     
@@ -20,14 +24,14 @@
                         </div>
             <nav class="nav-menu">
                 <ul>
-                    <li class="active">
-                        <a href="#dashboard">
+                    <li class="active" >
+                        <a href="#"  data-url="{{route('admin.index')}}" class="dynamic-link" >
                             <i class="fas fa-home"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#users">
+                        <a href="#" data-url="{{route('showusers')}}" class="dynamic-link">
                             <i class="fas fa-users"></i>
                             <span>Users</span>
                         </a>
@@ -70,7 +74,7 @@
                             <span class="notification-badge">3</span>
                         </div>
                     </a>
-                    <a href="#profile" class="profile-link">
+                    <a href="" data-url="{{route('user.profile')}}" class="dynamic-link">
                         <div class="profile-pic">
                             <i class="fas fa-user-circle"></i>
                         </div>
@@ -78,110 +82,22 @@
                 </div>
             </header>
            
-            <!-- Dashboard Content -->
-            <div class="dashboard-content">
-            
-            @if(session('message'))
-               {{session('message')}}
-            @endif
-            
-                <!-- Stats Cards -->
-                <div class="stats-grid">
-                    <a href="#users" class="stat-card">
-                        <div class="stat-card">
-                            <i class="fas fa-users"></i>
-                            <h3>{{$usercount}}</h3>
-                            <p>Total Users</p>
-                        </div>
-                    </a>
-                    <a href="#orders" class="stat-card">
-                        <div class="stat-card">
-                            <i class="fas fa-building"></i>
-                            <h3>{{$orgcount}}</h3>
-                            <p>Total Organizations</p>
-                        </div>
-                    </a>
-                    <a href="#revenue" class="stat-card">
-                        <div class="stat-card">
-                            <i class="fas fa-dollar-sign"></i>
-                            <h3>0</h3>
-                            <p></p>
-                        </div>
-                    </a>
-                    <a href="#tasks" class="stat-card">
-                        <i class="fas fa-clock"></i>
-                        <h3>0</h3>
-                        <p>Pending Tasks</p>
-                    </a>
-                </div>
+            <div id="message"></div>  
+        <div id="admin-content">
+        
 
-                <!-- Users and Organizations Section -->
-                <div class="users-orgs-section">
-                    <div class="users-section">
-                        <h3>Recent Users</h3>
-                        <div class="users-list">
-                            @foreach ($user as $user)
-                            <div class="user-item">
-                                <div class="user-avatar">
-                                    <i class="fas fa-user-circle"></i>
-                                </div>
-                                <div class="user-details">
-                                    <p class="user-name">{{$user->name}}</p>
-                                    <span class="user-role">{{$user->Role}}</span>
-                                </div>
-                                <div class="user-status">
-                                    <span class="status-dot active"></span>
-                                    <span class="status-text">{{$user->email}}</span>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                        <button class="more-button">View All Users</button>
-                    </div>
-
-                    <div class="organizations-section">
-                        <h3>Organizations</h3>
-                        <div class="orgs-list">
-                            @foreach ($org as $org)
-                            <div class="org-item">
-                                <div class="org-logo">
-                                    <i class="fas fa-building"></i>
-                                </div>
-                                <div class="org-details">
-                                    <p class="org-name">{{$org->name}}</p>
-                                    <span class="org-members">{{$org->org_id}}</span>
-                                </div>
-                                @if ($org->is_approved ==='approved')
-                                     <div class="user-status">
-                                       
-                                         <span class="status-dot active"></span>
-                                         <span class="text-success">Approved</span>
-                                     </div>
-                                 @elseif($org->is_approved ==='waiting')
-                                     <div class="user-status">
-                                     <span class="status-dot waiting"></span>
-                                     <span class="text-warning">waiting</span>
-                                     <a href="{{route('Orgdetials',['id' => $org->org_id])}}" class="btn btn-warning" role="button" >View</a>
-
-                                     </div>
-                                 @else
-                                  <div class="user-status">
-                                  <span class="status-dot primary"></span>
-                                  <span class="text-warning">Ideal</span>
-                                     <a href="{{route('Orgdetials',['id' => $org->org_id])}}" class="btn btn-primary" role="button" >View</a>
-                                     </div>
-
-                                 @endif
-                            </div>
-                          
-                            @endforeach
-                        </div>
-                        <button class="more-button">View All Organizations</button>
-                    </div>
-                </div>
-            </div>
+        </div>
            
         </main>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script > const eroute={
+            admindash:"{{route('admin.index')}}",
+        };
+        </script>
+    <script src="{{ asset('js/admin.js') }}"></script>
 </body>
 </html>

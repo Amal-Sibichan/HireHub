@@ -236,3 +236,15 @@ textarea {
 .photo-label:hover {
     background-color: #005a87;
 }
+
+#model .modal-dialog {
+    max-width: 90%;
+    width: 90%;
+}
+
+#model .modal-content {
+    height: auto;
+
+}
+
+

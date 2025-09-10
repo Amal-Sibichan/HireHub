@@ -26,6 +26,19 @@ class Organization extends Authenticatable
         'is_approved',
     ];
 
+    public function iscomplete()
+    {
+        $requiredFields=['name','email','address','city','state','identity','description'];
+        foreach($requiredFields as $field)
+        {
+            if(empty($this->$field))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     protected $hidden = [
         'password',
     ];

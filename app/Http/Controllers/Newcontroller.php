@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Skills;
 use App\Models\Academics;
+use App\Models\Application;
 use App\Models\Experience;
 use App\Models\Organization;
-use App\Models\Job
-;
+use App\Models\Job;
+use Yajra\DataTables\Facades\DataTables;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +22,13 @@ class Newcontroller extends Controller
 {
 
     #.........................................Index.....................................#
-   public function index()
+
+    public function master()
+    {
+      return view('masteruser');
+    }
+
+   public function Userindex()
    {
       $user = Auth::user();
       $jobs= Job::with('Organization')->get();
@@ -48,19 +56,94 @@ class Newcontroller extends Controller
 
    public function admin()
    {
-      $user = User::take(5)->get();
-      $usercount = User::count();
-      $orgcount = Organization::count();
-      $org = Organization::all();
-      return view('admin.admindashboard', compact('user', 'org','usercount','orgcount'));
+      return view('admin.admindashboard');
    }
 
+   public function admin_index()
+   {
+    $user = User::take(5)->get();
+    $usercount = User::count();
+    $orgcount = Organization::count();
+    $waitingorg = Organization::where('is_approved','waiting')->count();
+    $org = Organization::all();
+    return view('admin.Adminindex', compact('user', 'org','usercount','orgcount','waitingorg'));
+   }
+ #.........................................User_list.....................................#
+   public function showusers()
+   {
+    return view('admin.Userlist');
+   }
+
+
+   public function Totalusers()
+   {
+    $users = User::all();
+    return DataTables::of($users)
+    ->addColumn('action',function($row){
+      $btn='<a href="#" data-id="'.$row->user_id.'"  class="btn btn-sm btn-primary" id="viewbtn">View</a>';
+      return $btn;
+    })
+    ->rawColumns(['action'])
+    ->make(true);
+   }
+ #.........................................Organization_list.....................................#
+
+   public function showorganization($id)
+   {
+    if($id == 1)
+    {
+        return view('admin.waitinglist'); 
+    }   
+    else
+    {
+        return view('admin.Employerlist');
+    }
+   }
+
+
+   public function Totalemployers()
+   {
+    $organizations = Organization::all();
+    return DataTables::of($organizations)
+    ->addColumn('action',function($row){
+      $btn='<a href="#" data-id="'.$row->org_id.'"  class="btn btn-sm btn-primary" id="viewbtn">View</a>';
+      return $btn;
+    })
+    ->rawColumns(['action'])
+    ->make(true);
+   }
+
+
+   #.........................................Waiting_list.....................................#
+   public function waitinglist()
+   {
+    $organizations = Organization::where('is_approved','waiting')->get();
+    return DataTables::of($organizations)
+    ->addColumn('action',function($row){
+      $btn='<a href="#" data-id="'.$row->org_id.'"  class="btn btn-sm btn-primary" id="viewbtn">View</a>';
+      return $btn;
+    })
+    ->rawColumns(['action'])
+    ->make(true);
+   }
 
     #.........................................Job_listing.....................................#
 
    public function job_listing()
    {
     return view('job_listing');
+   }
+
+   public function Findjobs()
+   {
+    $jobs = Job::all();
+    return DataTables::of($jobs)
+    ->addColumn('action',function($row){
+      $btn='<a href="#" data-id="'.$row->j_id.'"  class="btn btn-sm btn-primary" id="viewbtn">View</a>';
+      return $btn;
+    })
+    ->rawColumns(['action'])
+    ->make(true);
    }
 
     #.........................................About_us.....................................#
@@ -80,11 +163,26 @@ class Newcontroller extends Controller
    public function job_details($id)
    {
     $jobs= Job::with('Organization')->findOrFail($id);
+    $user_id=Auth::user()->user_id ?? 0;
+    $app= Application::where('u_id',$user_id)->where('job_id',$jobs->j_id)->value('u_id');
     $skills=preg_split('/\r\n|\r|\n/',$jobs->skills);
     $exp=preg_split('/\r\n|\r|\n/',$jobs->Education);
-    return view('job_details', compact('jobs','skills','exp'));
+    return view('job_details', compact('jobs','skills','exp','app'));
    }
 
+
+
+   public function job_application($id)
+   {
+    $job= Job::with('Organization')->findOrFail($id);
+    $user=Auth::user();
+    Application::create([
+       'u_id' => $user->user_id,
+       'job_id' => $job->j_id,
+       'or_id' => $job->org_id,
+        ]);
+    return back();
+   }
 
 
 
@@ -155,7 +253,7 @@ class Newcontroller extends Controller
        }
        else
        {
-        return redirect()->route('index')->with('message','Login sucessfully');
+        return redirect()->route('master')->with('message','Login sucessfully');
        }
     //   return view('index', compact('user'));
      }
@@ -212,7 +310,7 @@ class Newcontroller extends Controller
 
    public function update(Request $update)
    {
-       $uid = decrypt(request('user_id'));
+       $uid = Auth::user()->user_id;
        $user = User::find($uid);
        $path = $update->file('img') ? $update->file('img')->store('Picture', 'public') : $user->image;
        $res_path = $update->file('res') ? $update->file('res')->store('Resume', 'public') : $user->resume;
@@ -234,8 +332,8 @@ class Newcontroller extends Controller
            'Prof'  => request('pro'),
             ]);
        
-       return redirect()->route('edit.user', encrypt($uid))->with('message','Updated sucessfully');
-   }
+            return response()->json(['success' => ' Updated successfully']);
+        }
 
     #................................. Show Update  Education page.............................................#
 
@@ -272,8 +370,8 @@ class Newcontroller extends Controller
         'start' => request('eduStart'),
         'end' => request('eduEnd'),
     ]);
-
-    return redirect()->route('update.edu')->with('message','Updated sucessfully');
+    return response()->json(['success' => ' Updated successfully']);
+    // return redirect()->route('user.profile')->with('message','Updated sucessfully');
 
    }
 
@@ -312,8 +410,8 @@ public function storeExp(Request $exp)
         'start' => request('expStart'),
         'end' => request('expEnd'),
     ]);
-
-    return redirect()->route('update.exp')->with('message','Updated sucessfully');
+    return response()->json(['success' => ' Updated successfully']);
+    // return redirect()->route('user.profile')->with('message','Updated sucessfully');
 }
 
 #................................. Employer Approvel.............................................#

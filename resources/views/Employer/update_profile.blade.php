@@ -1,16 +1,7 @@
-@extends('masteruser')
-    @section('content')
-    <div class="container">
-    @if(session('message'))
-               <div class="alert alert-success alert-dismissible" role="alert">
-                   {{ session('message') }}
-                   <button type="button" class="btn-close" onclick="" aria-label="Close"></button>
-               </div>
-     @endif
+        
         <div class="edit-form">
             <h1>Edit Profile</h1>
-            
-            <form class="needs-validation" novalidate action="{{route('Emp.update')}}" method='post' enctype="multipart/form-data">
+            <form class="needs-validation" novalidate action="" method='post' enctype="multipart/form-data" id="profupdate">
                 @csrf
                 <div class="form-section">
                     <h2 class="section-title">Basic Information</h2>
@@ -82,20 +73,51 @@
                         @enderror
                     </div>
                 </div>
-                </div>
-
                 <div class="form-group">
                     <button type="submit" class="btn">Save Changes</button>
-                    <a href="{{ route('Emp.profile')}}" class="btn btn-cancel">Cancel</a>
+                    <a href="#" class="btn btn-cancel" id="cancel">Cancel</a>
                 </div>
+             </div>
+             
+               
             </form>
         </div>
-    </div>
+  
+    <script type="text/javascript">
+$(document).ready(function() {
 
-    <script>
-        document.getElementById('profileForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Profile updated successfully!');
-        });
-    </script>
-@endsection
+ $('#profupdate').on('submit',function(e){
+    $('.text-danger').remove();
+    e.preventDefault();
+    let formData = new FormData($('#profupdate')[0]);
+    jQuery.ajax({
+        url:"{{route('Emp.update')}}",
+        data:formData,
+        type:'post',
+        processData: false,
+        contentType: false,
+        success:function(result){
+            $('#message').html('<div class="alert alert-success">'+result.success+'</div>'); 
+            $('html, body').animate({
+                        scrollTop: $('#message').offset().top - 20
+                    }, 500);   
+            setTimeout(function() {
+                $('#message').fadeOut('slow'); // or .slideUp('slow')
+            }, 500);
+            $('#content-area').load("{{route('Emp.profile')}}");   
+        },
+        error:function(xhr){
+            if(xhr.status === 422){
+                let errors = xhr.responseJSON.errors;
+                $.each(errors, function(key, value) {
+                    $(`[name="${key}"]`).after(`<span class="text-danger">${value[0]}</span>`);
+                });
+                $('html, body').animate({
+                        scrollTop: $('#message').offset().top - 20
+                    }, 500);  
+            }
+        }
+    })
+});
+})
+</script>

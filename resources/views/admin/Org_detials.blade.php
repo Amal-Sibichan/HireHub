@@ -1,6 +1,4 @@
-@extends('masteruser')
-    @section('content')
-    <main>
+   <main>
 
         <!-- Hero Area Start-->
         <div class="slider-area ">
@@ -109,4 +107,3 @@
         <!-- job post company End -->
 
     </main>
-   @endsection

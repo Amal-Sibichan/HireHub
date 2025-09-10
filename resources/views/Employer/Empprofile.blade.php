@@ -1,22 +1,14 @@
-@extends('masteruser')
-    @section('content')
-    <main>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+            <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/nice-select.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+            
 
-        <!-- Hero Area Start-->
-        <div class="slider-area ">
-        <div class="single-slider section-overly slider-height2 d-flex align-items-center" data-background="{{ asset('img/hero/about.jpg') }}">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="hero-cap text-center">
-                            <h2>{{$org->name}}</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-        <!-- Hero Area End -->
+    <main>
+    <div id="message"></div> 
         <!-- job post company Start -->
         <div class="job-post-company pt-120 pb-120">
             <div class="container">
@@ -74,14 +66,11 @@
 
                     </div>
                          <div class="apply-btn2">
-                            <a href="{{route('Emp.updateform')}}" class="btn btn-primary">Update Profile</a>
+                            <a href="#" data-url="{{route('Emp.updateform')}}" class="btn btn-primary nav-link" >Update Profile</a>
                          </div>
                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- job post company End -->
-
     </main>
-   @endsection

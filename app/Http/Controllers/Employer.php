@@ -2,18 +2,29 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Http\Request;
 use App\Models\Organization;
 use App\Models\Job;
+use App\Models\User;
+
 use App\Models\Application;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Laravel\Pail\ValueObjects\Origin\Console;
 use Mockery\Generator\StringManipulation\Pass\Pass;
 use phpDocumentor\Reflection\Types\Mixed_;
+use Yajra\DataTables\Facades\DataTables;
+
 class Employer extends Controller
 {
+
+  public function index()
+  {
+    $jobs = Job::where('org_id',Auth::guard('Organization')->user()->org_id)->get();
+      return view('Employer.Eindex',compact('jobs'));
+  }
     public function Showregister()
     {
         return view('Employer.Eregister');
@@ -77,6 +88,7 @@ class Employer extends Controller
       'about' => 'required',
 
     ]);
+
     $us=Auth::guard('Organization')->user();
     $org=Organization::find($us->org_id);
     $path = $update->file('img') ? $update->file('img')->store('Picture', 'public') : $org->logo;
@@ -93,7 +105,15 @@ class Employer extends Controller
       'description' => request('about'),
    
     ]);
-    return view('Employer.Empprofile',compact('org'));
+
+    if($org->iscomplete())
+    {
+      $org->is_approved='waiting';
+      $org->save();
+    } 
+   
+    return response()->json(['success' => ' Updated successfully']);
+    // return view('Employer.Empprofile',compact('org'));
 
   }
   
@@ -105,28 +125,29 @@ class Employer extends Controller
     {
       return view('Employer.jobupdate',compact('org'));
     }
-    elseif($org->is_approved === 'waiting')
-    {
-      return redirect()->back()->with('message','please waite for approvel');
-    }
     else
     {
-      return redirect()->route('Emp.updateform')->with('message','complete your profile');
+      $message = $org->is_approved === 'waiting' 
+      ? 'Please wait for approval.' 
+      : 'Please complete your profile first.';
+
+      session()->flash('message', $message);
+
+        // Redirect to the previous page or dashboard
+        return redirect()->route('Emp.index');
     }
   }
 
   public function Add(Request $req)
   {
-
     $req->validate([
       'name' => 'required',
-      'email' => 'required|email',
-      'pho' => 'required', 
-      'add' => 'required',
+      'desc' => 'required',
+      'skill' => 'required',
+      'edu' => 'required',
       'city' => 'required',
-      'state' => 'required',
-      'idty' => 'required',
-      'about' => 'required',
+      'salary' => 'required|numeric',
+      'due' => 'required',
 
     ]);
 
@@ -143,9 +164,59 @@ class Employer extends Controller
       'due'=>request('due'),
 
     ]);
+    return response()->json(['success' => 'Job added successfully']);
+    // return redirect()->route('Emp.dashboard')->with('message','Registered sucessfully');
+  }
+ 
 
-    return redirect()->route('Emp.dashboard')->with('message','Registered sucessfully');
+  public function showjobs()
+  {
+    return view('Employer.jobs');
+  }
+
+  public function jobs()
+  {
+    $us=Auth::guard('Organization')->user();
+    $jobs =Job::where('org_id',$us->org_id);
+    return DataTables::of($jobs)
+      ->addColumn('action',function($row){
+        $btn='<a href="#" data-id="'.$row->j_id.'"  class="btn btn-sm btn-primary" id="viewbtn">Applications</a>';
+        return $btn;
+      })
+      ->rawColumns(['action'])
+      ->make(true);
+  }
+
+  public function apppage()
+  {
+    return view('Employer.application');
+  }
+
+  public function applist($id)
+  {
     
+      
+    $applications=Application::where('job_id', $id)->with(['jobs', 'users']);
+    return DataTables::eloquent($applications)
+    ->addColumn('job_title', fn($app) => $app->jobs->name ?? 'N/A')
+    ->addColumn('user_name', fn($app) => $app->users->name ?? 'N/A')
+    ->addColumn('email', fn($app) => $app->users->email ?? 'N/A')
+    ->addColumn('action', fn($app) => '<a href="#" data-id="'.$app->u_id.'"  class="btn btn-sm btn-primary" id="applicants">Detials</a>')
+    ->filterColumn('user_name', function($query, $keyword) {
+      $query->whereHas('users', function($q) use ($keyword) {
+          $q->where('name', 'like', "%{$keyword}%");
+      });
+  })
+    ->rawColumns(['action']) // allows HTML in action column
+    ->toJson();
+     
+  }
+
+   
+  public function view_applicants($id)
+  {
+    $applicant=User::with(['education','experience'])->findOrFail($id);
+    return view('Employer.applicants',compact('applicant'));
   }
 
 

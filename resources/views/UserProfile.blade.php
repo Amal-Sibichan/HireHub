@@ -1,16 +1,18 @@
-@extends('masteruser')
-    @section('content')
-    <div class="container">
+
+<div class="container" id="profilecontainer">
+        <div id="message">
+
+        </div>
         <div class="profile-header">
             <div class="profile-info">
-                <img src="{{ asset('storage/' . $user->image) }}" alt="Profile Photo" class="profile-photo">
+                <img src="{{ asset('storage/'.$user->image) }}" alt="Profile Photo" class="profile-photo">
                 <div>
                     <h1 class="profile-name">{{ $user->name }}</h1>
                     <p class="profile-title">{{ $user->Prof }}</p>
                     <p class="profile-location">{{ $user->state }}, {{ $user->city }}</p>
                 </div>
             </div>
-            <a href="{{route('edit.user')}}" class="btn">Edit Profile</a>
+            <a href="#" class="btn" id="profilebtn">Edit Profile</a>
         </div>
 
         <div class="section">
@@ -28,15 +30,16 @@
             <div class="section-header">
                 <h2 class="section-title">Add your Previous Experience if any</h2>
             </div>
-            <a href="{{ route('update.exp') }}" class="btn btn-primary">Add Experience</a>
+            <a href="#" class="btn btn-primary" id="addexpbutton">Add Experience</a>
         </div>
 @else
         <div class="section">
             <div class="section-header">
                 <h2 class="section-title">Previous Experience</h2>
             </div>
-            @foreach($exp as $x)
+            
             <div class="section-content">
+            @foreach($exp as $x)
                 <div class="experience-item">
                     <h3>{{$x->position}}</h3>
                     <p class="experience-company">{{$x->company}}</p>
@@ -47,7 +50,7 @@
                 </div>
              @endforeach
             </div>
-            <a href="{{ route('update.exp') }}" class="btn btn-primary">Add Experience</a>
+            <a href="#" class="btn btn-primary" id="addexpbutton">Add Experience</a>
         </div>
 @endif
 
@@ -57,7 +60,7 @@
             <div class="section-header">
                 <h2 class="section-title">Add your education detials</h2>
             </div>
-            <a href="{{ route('update.edu') }}" class="btn  btn-primary">Add Education</a>
+            <a href="#" class="btn  btn-primary" id="addedubutton">Add Education</a>
         </div>
 
 @else
@@ -67,8 +70,9 @@
             <div class="section-header">
                 <h2 class="section-title">Education Detials</h2>
             </div>
-            @foreach($edu as $y)
+            
             <div class="section-content">
+            @foreach($edu as $y)
                 <div class="education-item">
                     <h3>{{$y->Level}}</h3>
                     <p class="experience-company">{{$y->Institute}}</p>
@@ -76,11 +80,24 @@
                 </div>
              @endforeach
             </div>
-            <a href="{{ route('update.edu') }}" class="btn  btn-primary">Add Education</a>
+            <a href="#" class="btn  btn-primary" id="addedubutton">Add Education</a>
         </div>
  
 @endif
 
+<!-- Modal -->
+<div class="modal fade" id="model" tabindex="-1"  aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add</h5>
+      </div>
+      <div class="modal-body" id="DataContainer">
+        ...
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -97,4 +114,3 @@
             </div>
         </div>
     </div>
-@endsection

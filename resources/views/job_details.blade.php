@@ -1,6 +1,4 @@
-@extends('masteruser')
-    @section('content')
-    <main>
+
 
         <!-- Hero Area Start-->
         <div class="slider-area ">
@@ -91,7 +89,11 @@
                               <li>Application date : <span>{{\Carbon\Carbon::parse($jobs->due)->toFormattedDateString()}}</span></li>
                           </ul>
                          <div class="apply-btn2">
-                            <a href="#" class="btn">Apply Now</a>
+                            @if($app==null)
+                            <a href="{{route('u.applay',['id'=>$jobs->j_id])}}" class="btn">Apply Now </a>
+                            @else
+                            <h2 style="color: green;">Applied</h2>
+                            @endif
                          </div>
                        </div>
                         <div class="post-details4  mb-50">
@@ -112,6 +114,3 @@
             </div>
         </div>
         <!-- job post company End -->
-
-    </main>
-   @endsection

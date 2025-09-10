@@ -1,19 +1,10 @@
-@extends('masteruser')
-    @section('content')
-    <div class="container">
-    @if(session('message'))
-    <div class="alert alert-success">
-        {{ session('message') }}
-    </div>
-    @endif
+
         <div class="edit-form">
-            <h1>Edit Profile</h1>
-            
-            <form class="needs-validation" novalidate action="{{route('store.exp')}}" method='post' enctype="multipart/form-data">
+            <form class="needs-validation" novalidate action="" method='post' enctype="multipart/form-data" id="Experienceform">
                 @csrf
     
                 <div class="form-section">
-                    <h2 class="section-title">Experience</h2>
+                    <h1 class="section-title">Experience</h1>
                     <div id="experienceList">
                         <div class="experience-item">
                             <div class="form-group">
@@ -58,10 +49,45 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn">Save Changes</button>
-                    <a href="{{ route('user.profile') }}" class="btn btn-cancel">Cancel</a>
+                    <button type="button" class="btn btn-cancel" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">Cancel</span>
+                    </button>
                 </div>
             </form>
         </div>
     </div>
-@endsection
 
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+ $('#Experienceform').on('submit',function(e){
+    e.preventDefault();
+    $('.text-danger').text('');
+    jQuery.ajax({
+        url:"{{route('store.exp')}}",
+        data:jQuery('#Experienceform').serialize(),
+        type:'post',
+        success:function(result){
+            $('#model').modal('hide');
+            $("#user-content").load("{{ route('user.profile') }}");
+            setTimeout(function() {
+                $('#message').html('<div class="alert alert-success">'+result.success+'</div>').fadeOut('slow'); 
+            }, 1000);
+
+        },
+            error: function(xhr) {
+                if (xhr.status === 422) {
+                    let errors = xhr.responseJSON.errors;
+
+                    // Loop through each error and display it below the field
+                    $.each(errors, function(key, value) {
+                        // Find the input field by name and show the error below it
+                        $(`[name="${key}"]`).after(`<span class="text-danger">${value[0]}</span>`);
+                    });
+                }
+            }
+        })
+});
+});
+</script>

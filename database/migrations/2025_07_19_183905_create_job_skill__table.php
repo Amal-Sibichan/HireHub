@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('job_skill_', function (Blueprint $table) {
             $table->bigIncrements('js_id');
-            $table->foreignId('j_id')->constrained('user', 'user_id')->onDelete('cascade');
+            $table->foreignId('j_id')->constrained('users', 'user_id')->onDelete('cascade');
             $table->foreignId('s_id')->constrained('skills', 's_id')->onDelete('cascade');
             $table->timestamps();
         });

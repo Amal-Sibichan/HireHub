@@ -79,4 +79,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Experience::class, 'xus_id', 'user_id');
     }
+
+    public function application()
+    {
+        return $this->hasMany(Application::class, 'u_id', 'user_id');
+    }
+
 }

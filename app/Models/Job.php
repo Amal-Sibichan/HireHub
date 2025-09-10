@@ -47,4 +47,10 @@ class Job extends Model
     {
         return $this->belongsTo(Organization::class, 'org_id');
     }
+
+    public function application()
+    {
+        return $this->hasMany(Application::class, 'job_id', 'j_id');
+    }
+
 }
