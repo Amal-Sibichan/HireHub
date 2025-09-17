@@ -1,20 +1,4 @@
 
-
-        <!-- Hero Area Start-->
-        <div class="slider-area ">
-        <div class="single-slider section-overly slider-height2 d-flex align-items-center" data-background="{{ asset('img/hero/about.jpg') }}">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="hero-cap text-center">
-                            <h2>{{$jobs->name}}</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-        <!-- Hero Area End -->
         <!-- job post company Start -->
         <div class="job-post-company pt-120 pb-120">
             <div class="container">
@@ -34,7 +18,6 @@
                                     <ul>
                                         <li>{{$jobs->Organization->name}}</li>
                                         <li><i class="fas fa-map-marker-alt"></i>{{$jobs->city}}</li>
-                                        <li>{{$jobs->salary}}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -85,7 +68,7 @@
                               <li>Posted date : <span>{{$jobs->created_at->toFormattedDateString()}}</span></li>
                               <li>Location : <span>{{$jobs->city}}</span></li>
                               <li>Job nature : <span>Full time</span></li>
-                              <li>Salary :  <span>${{$jobs->salary}}monthly</span></li>
+                              <li>Salary :  <span>₹{{$jobs->salary}}</span></li>
                               <li>Application date : <span>{{\Carbon\Carbon::parse($jobs->due)->toFormattedDateString()}}</span></li>
                           </ul>
                          <div class="apply-btn2">

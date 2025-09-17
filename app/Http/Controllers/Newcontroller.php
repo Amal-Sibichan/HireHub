@@ -120,7 +120,7 @@ class Newcontroller extends Controller
     $organizations = Organization::where('is_approved','waiting')->get();
     return DataTables::of($organizations)
     ->addColumn('action',function($row){
-      $btn='<a href="#" data-id="'.$row->org_id.'"  class="btn btn-sm btn-primary" id="viewbtn">View</a>';
+      $btn='<a href="#" data-id="'.$row->org_id.'"  class="btn btn-sm btn-primary" id="viewbtn">View i</a>';
       return $btn;
     })
     ->rawColumns(['action'])
@@ -274,7 +274,7 @@ class Newcontroller extends Controller
    public function logout()
    {
     Auth::logout();
-    return redirect()->route('index')->with('message','Logout sucessfully');
+    return redirect()->route('master')->with('message','Logout sucessfully');
    }
 
 
