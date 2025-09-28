@@ -147,6 +147,8 @@ class Employer extends Controller
       'edu' => 'required',
       'city' => 'required',
       'salary' => 'required|numeric',
+      'category' => 'required',
+      'type' => 'required',
       'due' => 'required',
 
     ]);
@@ -161,6 +163,8 @@ class Employer extends Controller
       'Education'=>request('edu'),
       'city'=>request('city'),
       'salary'=>request('salary'),
+      'category'=>request('category'),
+      'type'=>request('type'),
       'due'=>request('due'),
 
     ]);

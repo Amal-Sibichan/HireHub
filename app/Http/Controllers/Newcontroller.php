@@ -129,9 +129,47 @@ class Newcontroller extends Controller
 
     #.........................................Job_listing.....................................#
 
-   public function job_listing()
+   public function job_listing(Request $request)
    {
-    return view('job_listing');
+   // Build the query with optional filters
+   $query = Job::with('Organization');
+
+   // Text search across job name, organization name, and city
+   if ($search = $request->input('search')) {
+     $query->where(function ($q) use ($search) {
+       $q->where('name', 'like', "%{$search}%")
+         ->orWhere('city', 'like', "%{$search}%")
+         ->orWhere('category', 'like', "%{$search}%")
+         ->orWhere('type', 'like', "%{$search}%")
+         ->orWhereHas('Organization', function ($oq) use ($search) {
+           $oq->where('name', 'like', "%{$search}%");
+         });
+     });
+   }
+
+   // Category filter
+   if ($category = $request->input('category')) {
+     $query->where('category', $category);
+   }
+
+   // Job type filter
+   if ($jobType = $request->input('job_type')) {
+     $query->where('type', $jobType);
+   }
+
+   // Location filter (by city)
+   if ($location = $request->input('location')) {
+     $query->where('city', $location);
+   }
+
+   // Paginate and keep query string for pagination links
+   $jobs = $query->paginate(3)->appends($request->query());
+   $totalJobs = $jobs->total();
+
+   if ($request->ajax()) {
+     return view('job_listing', compact('jobs','totalJobs'))->render();
+   }
+   return view('job_listing', compact('jobs','totalJobs'));
    }
 
    public function Findjobs()

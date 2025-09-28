@@ -93,6 +93,7 @@ $(document).ready(function() {
     jQuery.ajax({
         url:"{{route('Emp.update')}}",
         data:formData,
+        
         type:'post',
         processData: false,
         contentType: false,

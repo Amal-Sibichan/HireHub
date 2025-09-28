@@ -67,7 +67,7 @@
                           <ul>
                               <li>Posted date : <span>{{$jobs->created_at->toFormattedDateString()}}</span></li>
                               <li>Location : <span>{{$jobs->city}}</span></li>
-                              <li>Job nature : <span>Full time</span></li>
+                              <li>Job nature : <span>{{$jobs->type}}</span></li>
                               <li>Salary :  <span>₹{{$jobs->salary}}</span></li>
                               <li>Application date : <span>{{\Carbon\Carbon::parse($jobs->due)->toFormattedDateString()}}</span></li>
                           </ul>
