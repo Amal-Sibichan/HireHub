@@ -12,10 +12,10 @@
                     <p class="profile-location">{{ $user->state }}, {{ $user->city }}</p>
                 </div>
             </div>
-            <a href="#" class="btn" id="profilebtn">Edit Profile</a>
+            <a href="#" class="profilebtn" id="profilebtn">Edit Profile</a>
         </div>
 
-        <div class="section">
+        <div class="profile-section">
             <div class="section-header">
                 <h2 class="section-title">About</h2>
             </div>
@@ -26,14 +26,14 @@
             </div>
         </div>
 @if($exp->isEmpty())
-        <div class="section">
+        <div class="profile-section">
             <div class="section-header">
                 <h2 class="section-title">Add your Previous Experience if any</h2>
             </div>
-            <a href="#" class="btn btn-primary" id="addexpbutton">Add Experience</a>
+            <a href="#" class="profilebtn" id="addexpbutton">Add Experience</a>
         </div>
 @else
-        <div class="section">
+        <div class="profile-section">
             <div class="section-header">
                 <h2 class="section-title">Previous Experience</h2>
             </div>
@@ -50,23 +50,23 @@
                 </div>
              @endforeach
             </div>
-            <a href="#" class="btn btn-primary" id="addexpbutton">Add Experience</a>
+            <a href="#" class="profilebtn" id="addexpbutton">Add Experience</a>
         </div>
 @endif
 
 
 @if($edu->isEmpty())
-        <div class="section">
+        <div class="profile-section">
             <div class="section-header">
                 <h2 class="section-title">Add your education detials</h2>
             </div>
-            <a href="#" class="btn  btn-primary" id="addedubutton">Add Education</a>
+            <a href="#" class="profilebtn" id="addedubutton">Add Education</a>
         </div>
 
 @else
 
  
-        <div class="section">
+        <div class="profile-section">
             <div class="section-header">
                 <h2 class="section-title">Education Detials</h2>
             </div>
@@ -80,7 +80,7 @@
                 </div>
              @endforeach
             </div>
-            <a href="#" class="btn  btn-primary" id="addedubutton">Add Education</a>
+            <a href="#" class="profilebtn" id="addedubutton">Add Education</a>
         </div>
  
 @endif
@@ -101,7 +101,7 @@
 
 
 
-        <div class="section">
+        <div class="profile-section">
             <div class="section-header">
                 <h2 class="section-title">Skills</h2>
             </div>

@@ -56,17 +56,58 @@ class Newcontroller extends Controller
 
    public function admin()
    {
-      return view('admin.admindashboard');
+      $waitingorg = Organization::where('is_approved','waiting')->count();
+      return view('admin.admindashboard',compact('waitingorg'));
    }
 
    public function admin_index()
    {
+    // Fetch latest N from each table
+    $useractivity = User::select('user_id', 'name', 'created_at')
+        ->latest()->take(10)->get()
+        ->map(function ($item) {
+            return [
+                'type' => 'user',
+                'title' => 'New User Registered: ' . $item->name,
+                'time' => $item->created_at,
+            ];
+        });
+
+    $jobactivity = Job::select('j_id', 'name', 'created_at')
+        ->latest()->take(10)->get()
+        ->map(function ($item) {
+            return [
+                'type' => 'job',
+                'title' => 'Job Posted: ' . $item->name,
+                'time' => $item->created_at,
+            ];
+        });
+
+    $orgactivity = Organization::select('org_id', 'name', 'created_at')
+        ->latest()->take(10)->get()
+        ->map(function ($item) {
+            return [
+                'type' => 'organization',
+                'title' => 'Organization Created: ' . $item->name,
+                'time' => $item->created_at,
+            ];
+        });
+
+    // Merge all collections and sort by time descending
+    $activities = collect()
+        ->merge($useractivity)
+        ->merge($jobactivity)
+        ->merge($orgactivity)
+        ->sortByDesc('time')
+        ->take(5)
+        ->values();
+
     $user = User::take(5)->get();
     $usercount = User::count();
     $orgcount = Organization::count();
     $waitingorg = Organization::where('is_approved','waiting')->count();
     $org = Organization::all();
-    return view('admin.Adminindex', compact('user', 'org','usercount','orgcount','waitingorg'));
+    return view('admin.Adminindex', compact('user', 'org','usercount','orgcount','waitingorg','activities'));
    }
  #.........................................User_list.....................................#
    public function showusers()

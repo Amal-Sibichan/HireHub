@@ -1,155 +1,23 @@
 
-    <style>
-        /* Reset and body styles same as before */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-
-}
-
-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-}
-
-.search-bar {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-.search-bar input {
-    width: 300px;
-    padding: 10px;
-    border: 1px solid #aaa;
-    border-radius: 5px;
-}
-
-.search-bar button {
-    padding: 10px 20px;
-    background-color: #0077cc;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.filters button {
-    padding: 10px 20px;
-    background-color: #0077cc;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.filters {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 30px;
-}
-
-.filters select {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-/* Job listings and cards */
-.job-listings {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.job-card {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.job-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.job-header img {
-    width: 50px;
-    height: 50px;
-    object-fit: contain;
-    margin-right: 15px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-}
-
-.job-header h2 {
-    font-size: 1.2rem;
-    color: #0077cc;
-}
-
-.job-card p {
-    margin-bottom: 8px;
-}
-
-.job-card button {
-    padding: 10px 15px;
-    background-color: #28a745;
-    border: none;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 0px;
-}
-
-footer {
-    text-align: center;
-    margin-top: 40px;
-    color: #777;
-}
-#jobcount{
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center;     /* Center vertically */
-}
-.center-if-few {
-    justify-content: center;
-}
-
-
-    </style>
-    <header>
-        <div class="search-bar">
+    <div class="searcheader">
+        <div class="searchfilter">
         <form id="searchForm" method="GET" action="{{ route('job_listing') }}" class="mb-3 d-flex gap-2">
             <input type="text" name="search" placeholder="Search for jobs...">
             <button type="submit">Search</button>
         </form>
         </div>
-    </header>
     <form id="filterform" method="GET" action="{{ route('job_listing') }}">
     <section class="filters">
         <select name="category">
             <option value="">All Categories</option>
-            <option value="IT">IT</option>
-            <option value="Health">Health</option>
-            <option value="Education">Education</option>
-            <option value="Finance">Finance</option>
-            <option value="Marketing">Marketing</option>
-            <option value="Sales">Sales</option>
-            <option value="HR">HR</option>
-            <option value="Other">Other</option>
+            <option value="IT" {{ request('category')=='IT' ? 'selected' : '' }}>IT</option>
+            <option value="Health" {{ request('category')=='Health' ? 'selected' : '' }}>Health</option>
+            <option value="Education" {{ request('category')=='Education' ? 'selected' : '' }}>Education</option>
+            <option value="Finance" {{ request('category')=='Finance' ? 'selected' : '' }}>Finance</option>
+            <option value="Marketing" {{ request('category')=='Marketing' ? 'selected' : '' }}>Marketing</option>
+            <option value="Sales" {{ request('category')=='Sales' ? 'selected' : '' }}>Sales</option>
+            <option value="HR" {{ request('category')=='HR' ? 'selected' : '' }}>HR</option>
+            <option value="Other" {{ request('category')=='Other' ? 'selected' : '' }}>Other</option>
         </select>
 
         <select name="location">
@@ -160,14 +28,15 @@ footer {
 
         <select name="job_type">
             <option value="">All Job Types</option>
-            <option value="Full Time">Full Time</option>
-            <option value="Part Time">Part Time</option>
-            <option value="Internship">Internship</option>
+            <option value="Full Time"{{ request('job_type')=='Full Time' ? 'selected' : '' }}>Full Time</option>
+            <option value="Part Time"{{ request('job_type')=='Part Time' ? 'selected' : '' }}>Part Time</option>
+            <option value="Internship"{{ request('job_type')=='Internship' ? 'selected' : '' }}>Internship</option>
         </select>
         <button type="submit">Filter</button>
     </section>
     
     </form>
+    </div>
     <div id="jobcount">  
         <span >{{ $totalJobs }} Jobs found</span>
     </div>
@@ -202,4 +71,3 @@ footer {
                 </div>
             </div>
         </div>
-
