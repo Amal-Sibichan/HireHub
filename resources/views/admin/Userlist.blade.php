@@ -6,10 +6,26 @@
 </table>
 
 <script>
+  $(document).ready(function() {
+  $('#users-table').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: { url: $('#users-table').data('source') },
+    columns: [
+      { data: 'user_id' },
+      { data: 'name' },
+      { data: 'email' },
+      { data: 'created_at' },
+      {data:'action',oderable:false,searchable:false},
+      
+    ],
+  });
+});
+
 $(document).on('click','#viewbtn',function(e){
     e.preventDefault();
     let id=$(this).data("id");
-    $.get("/Orgdetials/"+id, function(viewHtml) {
+    $.get("/Userlist/"+id, function(viewHtml) {
       $('#admin-content').html(viewHtml);
     });
 

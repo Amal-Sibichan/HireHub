@@ -204,7 +204,7 @@ class Newcontroller extends Controller
    }
 
    // Paginate and keep query string for pagination links
-   $jobs = $query->paginate(3)->appends($request->query());
+   $jobs = $query->paginate(10)->appends($request->query());
    $totalJobs = $jobs->total();
 
    if ($request->ajax()) {

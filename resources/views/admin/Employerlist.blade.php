@@ -39,6 +39,7 @@ $(document).on('click','#viewbtn',function(e){
   $.get("{{ route('admin.index') }}", function(viewHtml) {
     $('#admin-content').html(viewHtml);
   });
+  
 });
 
 </script>

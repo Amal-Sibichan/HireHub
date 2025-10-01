@@ -22,7 +22,7 @@ class Employer extends Controller
 
   public function index()
   {
-    $jobs = Job::where('org_id',Auth::guard('Organization')->user()->org_id)->get();
+    $jobs = Job::with('application')->where('org_id',Auth::guard('Organization')->user()->org_id)->get();
       return view('Employer.Eindex',compact('jobs'));
   }
     public function Showregister()
@@ -85,6 +85,7 @@ class Employer extends Controller
       'add' => 'required',
       'city' => 'required',
       'state' => 'required',
+      'website' => 'required',
       'about' => 'required',
 
     ]);
@@ -102,21 +103,25 @@ class Employer extends Controller
       'address' => request('add'),
       'city' => request('city'),
       'state' => request('state'),
+      'website' => request('website'),
       'description' => request('about'),
    
     ]);
 
     if($org->iscomplete())
     {
-      $org->is_approved='waiting';
-      $org->save();
+      if($org->is_approved==='ideal')
+      {
+        $org->is_approved='waiting';
+        $org->save();
+      }
     } 
    
     return response()->json(['success' => ' Updated successfully']);
     // return view('Employer.Empprofile',compact('org'));
 
   }
-  
+ 
   public function jobform()
   {
     $org=Auth::guard('Organization')->user();
@@ -171,7 +176,41 @@ class Employer extends Controller
     return response()->json(['success' => 'Job added successfully']);
     // return redirect()->route('Emp.dashboard')->with('message','Registered sucessfully');
   }
- 
+
+  public function jobedit($id)
+  {
+    $job=Job::findOrFail($id);
+    return view('Employer.jobedit',compact('job'));
+  }
+
+  public function jobeditupdate(Request $req)
+  {
+    $req->validate([
+      'name' => 'required',
+      'desc' => 'required',
+      'skill' => 'required',
+      'edu' => 'required',
+      'city' => 'required',
+      'salary' => 'required|numeric',
+      'category' => 'required',
+      'type' => 'required',
+      'due' => 'required',
+
+    ]);
+    $job=Job::findOrFail($req->j_id);
+    $job->update([
+      'name'=>request('name'),
+      'description'=>request('desc'),
+      'skills'=>request('skill'),
+      'Education'=>request('edu'),
+      'city'=>request('city'),
+      'salary'=>request('salary'),
+      'category'=>request('category'),
+      'type'=>request('type'),
+      'due'=>request('due'),
+    ]);
+    return response()->json(['success' => 'Job updated successfully']);
+  }
 
   public function showjobs()
   {
@@ -183,11 +222,17 @@ class Employer extends Controller
     $us=Auth::guard('Organization')->user();
     $jobs =Job::where('org_id',$us->org_id);
     return DataTables::of($jobs)
+    ->addColumn('status', function ($row) {
+      return \Carbon\Carbon::now()->greaterThan($row->due)
+          ? '<span class="status closed">Closed</span>'
+          : '<span class="status active">Active</span>';
+  })
       ->addColumn('action',function($row){
         $btn='<a href="#" data-id="'.$row->j_id.'"  class="btn btn-sm btn-primary" id="viewbtn">Applications</a>';
-        return $btn;
+        $btn2='<a href="#" data-id="'.$row->j_id.'"  class="btn btn-sm btn-warning ml-1" id="editbtn">Edit</a>';
+        return $btn.$btn2;
       })
-      ->rawColumns(['action'])
+      ->rawColumns(['action','status'])
       ->make(true);
   }
 
@@ -205,7 +250,7 @@ class Employer extends Controller
     ->addColumn('job_title', fn($app) => $app->jobs->name ?? 'N/A')
     ->addColumn('user_name', fn($app) => $app->users->name ?? 'N/A')
     ->addColumn('email', fn($app) => $app->users->email ?? 'N/A')
-    ->addColumn('action', fn($app) => '<a href="#" data-id="'.$app->u_id.'"  class="btn btn-sm btn-primary" id="applicants">Detials</a>')
+    ->addColumn('action', fn($app) => '<a href="#" data-id="'.$app->u_id.'" data-job="'.$app->job_id.'" class="btn btn-sm btn-primary" id="applicants">Detials</a>')
     ->filterColumn('user_name', function($query, $keyword) {
       $query->whereHas('users', function($q) use ($keyword) {
           $q->where('name', 'like', "%{$keyword}%");
@@ -217,10 +262,12 @@ class Employer extends Controller
   }
 
    
-  public function view_applicants($id)
+  public function view_applicants($id,$jobId)
   {
     $applicant=User::with(['education','experience'])->findOrFail($id);
-    return view('Employer.applicants',compact('applicant'));
+    $appid=Application::where('u_id',$id)->where('job_id',$jobId)->first();
+    $job=Job::where('j_id',$appid->job_id)->first();
+    return view('Employer.applicants',compact('applicant','job'));
   }
 
 
@@ -231,7 +278,7 @@ class Employer extends Controller
     public function logout()
     {
         Auth::guard('Organization')->logout();
-        return redirect()->route('loginpage');
+        return redirect()->route('master');
     }
 
 

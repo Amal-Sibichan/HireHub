@@ -22,8 +22,8 @@
       <img src="office2.jpg" alt="Office 2">
       <img src="office3.jpg" alt="Office 3">
     </div>
-    <button class="prev">&#10094;</button>
-    <button class="next">&#10095;</button>
+    <button class="carouselprev">&#10094;</button>
+    <button class="carouselnext">&#10095;</button>
   </div>
 
   <!-- Company Details -->
@@ -43,7 +43,7 @@
       <a href="#" class="reject-btn" id="openRejectModal">Reject</a>
     @else
       <a href="{{ route('org.approve', ['v' => 1, 'id' => $org->org_id]) }}" class="accept-btn">Approve</a>
-      <a href="{{ route('org.approve', ['v' => 0, 'id' => $org->org_id]) }}" class="reject-btn">Reject</a>
+      <a href="#" class="reject-btn" id="openRejectModal">Reject</a>
     @endif
   </div>
   </div>
@@ -76,8 +76,8 @@
 <script>
   let slides = document.querySelector('.slides');
   let images = document.querySelectorAll('.slides img');
-  let prev = document.querySelector('.prev');
-  let next = document.querySelector('.next');
+  let prev = document.querySelector('.carouselprev');
+  let next = document.querySelector('.carouselnext');
   let index = 0;
 
   function showSlide(i) {
@@ -109,6 +109,8 @@ $(document).on('click', function (e) {
     $('#rejectModal').css('display', 'none');
   }
 });
+
+
 
   </script>
   

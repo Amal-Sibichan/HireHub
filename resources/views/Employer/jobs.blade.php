@@ -1,7 +1,7 @@
 
 <table id="jobs-table" data-source="{{ route('Emp.jobs') }}">
   <thead>
-    <tr><th>ID</th><th>Job Title</th><th>Due</th><th>created</th><th>Actions</th></tr>
+    <tr><th>ID</th><th>Job Title</th><th>Due</th><th>created</th><th>Status</th><th>Actions</th></tr>
   </thead>
 </table>
 
@@ -16,6 +16,7 @@ $(document).ready(function() {
       { data: 'name' },
       { data: 'due' },
       { data: 'created_at' },
+      {data:'status',oderable:false,searchable:false},
       {data:'action',oderable:false,searchable:false},
       
     ],
@@ -43,7 +44,16 @@ $(document).on('click','#viewbtn',function(e){
         });
       }
   });
-
+  $(document).on('click','#editbtn',function(e){
+    e.preventDefault();
+    let jid=$(this).data("id");
+      if(jid){
+        let url = "{{ route('Emp.jobedit', ['id' => ':id']) }}".replace(':id', jid);
+        $.get(url, function(viewHtml) {
+          $('#content-area').html(viewHtml);
+        });
+      }
+  });
 
   $(document).on('click', '#back', function(e) {
   e.preventDefault();

@@ -14,7 +14,7 @@
 <body>
   <!-- Header -->
   <header class="header">
-    <div class="logo">Job<span>Finder</span></div>
+    <div class="logo">Hire<span>Hub</span></div>
     <nav>
       <a href="#" data-url="{{ route('index') }}" class=" dynamic-link">Home</a>
       <a href="#" data-url="{{ route('job_listing') }}" class=" dynamic-link"> Jobs </a>

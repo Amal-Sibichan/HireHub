@@ -8,7 +8,8 @@
   $(document).on('click','#applicants',function(e){
     e.preventDefault();
     let id=$(this).data("id");
-    $.get("/Applicants/"+id, function(viewHtml) {
+    let jobId = $(this).data("job");
+    $.get("/Applicants/"+id+"/"+jobId, function(viewHtml) {
       $('#content-area').html(viewHtml);
     });
 

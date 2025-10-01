@@ -30,6 +30,8 @@ class Job extends Model
        'city',
        'salary',
        'state',
+       'type',
+       'category',
        'due',
    ];
 

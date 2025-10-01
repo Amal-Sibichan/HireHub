@@ -1,5 +1,6 @@
         
         <div class="edit-form">
+            <div id="message"></div>
             <h1>Edit Profile</h1>
             <form class="needs-validation" novalidate action="" method='post' enctype="multipart/form-data" id="profupdate">
                 @csrf
@@ -31,6 +32,13 @@
                         <label for="location">Contact</label>
                         <input type="number"  id="phone" name="pho" value="{{ $org->phone }} " required>
                         @error('pho')
+                           <div class="text-danger small mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="website">Website</label>
+                        <input type="text"  id="website" name="website" value="{{ $org->website }}" placeholder="www.example.com" required>
+                        @error('website')
                            <div class="text-danger small mt-1">{{ $message }}</div>
                         @enderror
                     </div>
@@ -75,7 +83,7 @@
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn">Save Changes</button>
-                    <a href="#" class="btn btn-cancel" id="cancel">Cancel</a>
+                    <a href="#" class="btn btn-cancel " id="back">Cancel</a>
                 </div>
              </div>
              
@@ -120,5 +128,15 @@ $(document).ready(function() {
         }
     })
 });
+
+$(document).on('click', '#back', function(e) {
+    e.preventDefault();
+    
+    // Reload the jobs table view
+    $.get("{{ route('Emp.profile') }}", function(viewHtml) {
+      $('#content-area').html(viewHtml);
+    });
+    
+  });
 })
 </script>

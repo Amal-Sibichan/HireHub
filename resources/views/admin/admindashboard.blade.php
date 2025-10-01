@@ -12,7 +12,7 @@
 <body>
   <!-- Sidebar -->
   <aside class="sidebar">
-    <div class="brand">Job<span>Finder</span></div>
+    <div class="brand">Hire<span>Hub</span></div>
     <ul>
       <li class=" dynamic-link" data-url="{{route('admin.index')}}"><i class="fas fa-home"></i> Dashboard </li>
       <li><i class="fas fa-briefcase" ></i> Manage Jobs</li>
@@ -30,9 +30,9 @@
   </ul>
 </li>
 
-      <li><i class="fas fa-users dynamic-link" data-url="{{route('showusers')}}"></i> Users</li>
+      <li class="dynamic-link" data-url="{{route('showusers')}}"><i class="fas fa-users " ></i> Users</li>
       <li><i class="fas fa-user-shield"></i> Admins</li>
-      <li><i class="fas fa-cog"></i> Settings</li>
+      <li ><a href="{{route('logout')}}" class="side-a"><i class="fa-solid fa-right-from-bracket"></i>logout</a></li>
     </ul>
   </aside>
 

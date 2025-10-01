@@ -17,6 +17,9 @@ Route::middleware(Isloggedin::class)->group(function () {
     Route::post('expupdate', [Newcontroller::class, 'storeExp'])->name('store.exp');
     Route::get('/admin', [Newcontroller::class, 'admin'])->name('admin');
     Route::get('/approvel/{v}/{id}', [Newcontroller::class, 'Approve'])->name('org.approve');
+    Route::post('/reject', [Newcontroller::class, 'reject'])->name('org.reject');
+
+
     Route::get('/applay/{id}', [Newcontroller::class, 'job_application'])->name('u.applay');
     Route::get('/showusers', [Newcontroller::class, 'showusers'])->name('showusers');
     Route::get('/Users', [Newcontroller::class, 'Totalusers'])->name('Users');
@@ -63,11 +66,13 @@ Route::middleware(Emplogin::class)->group(function () {
     Route::get('applications/{id}',[Employer::class,'applist'])->name('Emp.applist');
     Route::get('apppage',[Employer::class,'apppage'])->name('Emp.apppage');
     Route::get('Employer/index',[Employer::class,'index'])->name('Emp.index');
+    Route::get('jobedit/{id}',[Employer::class,'jobedit'])->name('Emp.jobedit');
+    Route::post('jobedit/update',[Employer::class,'jobeditupdate'])->name('Emp.jobedit.update');
 
     Route::get('recentjobs',[Employer::class,'showjobs'])->name('Emp.showjobs');
     Route::get('joblist',[Employer::class,'jobs'])->name('Emp.jobs');
     Route::get('jobapplications',[Employer::class,'application'])->name('Emp.applicants');
-    Route::get('Applicants/{id}',[Employer::class,'view_applicants'])->name('Emp.applicant.detials');
+    Route::get('Applicants/{id}/{jobId}',[Employer::class,'view_applicants'])->name('Emp.applicant.detials');
 
 
   
