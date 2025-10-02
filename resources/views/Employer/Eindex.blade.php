@@ -2,7 +2,7 @@
         <!-- Top Stats -->
         <div id="imessage"></div>
             @if(session('message'))
-               <div class="alert alert-success alert-dismissible" role="alert">
+               <div class="alert alert-warning alert-dismissible" role="alert">
                    {{ session('message') }}
                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                      <span aria-hidden="true">&times;</span>
@@ -12,19 +12,19 @@
         <section class="stats">
             <div class="card">
                 <h3>Total Jobs</h3>
-                <p>12</p>
+                <p>{{$jobs->count()}}</p>
             </div>
             <div class="card">
                 <h3>Active Jobs</h3>
-                <p>8</p>
+                <p>{{ $activeJobs }}</p>
             </div>
             <div class="card">
                 <h3>Applications</h3>
-                <p>245</p>
+                <p>{{$applications->count()}}</p>
             </div>
             <div class="card">
                 <h3>Reviews</h3>
-                <p>54</p>
+                <p>{{$reviews->count()}}</p>
             </div>
         </section>
 
@@ -59,10 +59,22 @@
             </table>
         </section>
         <!-- Recent Reviews -->
+         @if($reviews->count() > 0)
         <section class="reviews">
+           @foreach($reviews as $review)
             <h2>Recent Reviews</h2>
             <ul>
-                <li><strong>John Doe:</strong> ⭐⭐⭐⭐ "Great company to work for!"</li>
-                <li><strong>Sarah Smith:</strong> ⭐⭐⭐ "Good, but work-life balance can improve."</li>
+                <li><strong>{{$review->user->name}}:</strong><h6>{!!str_repeat('<i class="fa-solid fa-star" style="color: #FFD43B;"></i>',$review->rating)!!}</h6>
+                "{{$review->review}}"</li>
             </ul>
+            @endforeach
         </section>
+        @endif
+
+
+        <script type="text/javascript">
+            setTimeout(function() {
+                $('.alert').fadeOut('slow'); // or .slideUp('slow')
+            }, 3000); 
+
+        </script>

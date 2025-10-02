@@ -25,7 +25,7 @@
 $(document).on('click','#viewbtn',function(e){
     e.preventDefault();
     let id=$(this).data("id");
-    $.get("/Userlist/"+id, function(viewHtml) {
+    $.get("/User_detials/"+id, function(viewHtml) {
       $('#admin-content').html(viewHtml);
     });
 

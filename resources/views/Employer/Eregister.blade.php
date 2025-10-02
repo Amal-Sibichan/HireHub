@@ -10,13 +10,20 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <style>
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 2rem;
-        }
+        * {
+	box-sizing: border-box;
+}
+
+body {
+	background: linear-gradient(to left, #0077ff, #00c6ff);;
+	font-family: 'Montserrat', sans-serif;
+	margin-top: 100px;
+	padding: 0;
+	min-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+}
         .auth-container {
             background: white;
             border-radius: 15px;
@@ -89,7 +96,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control form-control-lg" id="pass" name="pass" required>
+                                        <input type="password" class="form-control form-control-lg" id="pass" name="pass" required>
                                         <label for="pass">Password</label>
                                     </div>
                                     @error('pass')

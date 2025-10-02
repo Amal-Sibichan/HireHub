@@ -31,6 +31,7 @@ class User extends Authenticatable
         'state',
         'About',
         'Prof',
+        'Role'
     ];
 
     /**
@@ -83,6 +84,11 @@ class User extends Authenticatable
     public function application()
     {
         return $this->hasMany(Application::class, 'u_id', 'user_id');
+    }
+
+    public function feedback()
+    {
+        return $this->hasMany(Feedback::class,'usr_id','user_id');
     }
 
 }

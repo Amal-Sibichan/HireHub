@@ -8,6 +8,7 @@ use App\Models\Application;
 use App\Models\Experience;
 use App\Models\Organization;
 use App\Models\Job;
+use App\Models\Feedback;
 use Yajra\DataTables\Facades\DataTables;
 
 use Illuminate\Http\Request;
@@ -31,7 +32,8 @@ class Newcontroller extends Controller
    public function Userindex()
    {
       $user = Auth::user();
-      $jobs= Job::with('Organization')->get();
+     $jobs= Job::with('Organization')->latest()->take(5)->get();
+      $org=Organization::latest()->take(5)->get();
       $emp = Auth::guard('Organization')->user();
       if ($user) {
         if ($user->Role == 'Admin') {
@@ -39,7 +41,7 @@ class Newcontroller extends Controller
          }
          else
          {
-            return view('index',compact('jobs'));
+            return view('index',compact('jobs','org'));
          }
       }
       elseif ($emp)
@@ -48,7 +50,7 @@ class Newcontroller extends Controller
       }
       else
       {
-         return view('index',compact('jobs'));
+         return view('index',compact('jobs','org'));
       }
 
    }
@@ -105,10 +107,41 @@ class Newcontroller extends Controller
     $user = User::take(5)->get();
     $usercount = User::count();
     $orgcount = Organization::count();
+    $jobcount = Job::count();
+    $admincount = User::where('Role','Admin')->count();
     $waitingorg = Organization::where('is_approved','waiting')->count();
     $org = Organization::all();
-    return view('admin.Adminindex', compact('user', 'org','usercount','orgcount','waitingorg','activities'));
+    return view('admin.Adminindex', compact('user', 'org','usercount','orgcount','waitingorg','activities','jobcount','admincount'));
    }
+ #.........................................Add admin.....................................#
+
+ public function addadmin(Request $request)
+ {
+  $request->validate([
+    'name'=>'required',
+    'email'=>'required|email|unique:users,email',
+    'pass'=>['required',Password::min(8)
+    ->mixedCase()
+    ->letters()
+    ->numbers()
+    ->symbols()
+    ->uncompromised()
+   ],
+
+  ]);
+
+  User::create([
+    'name'=>$request->name,
+    'email'=>$request->email,
+    'password'=>$request->pass,
+    'Role'=>'Admin',    
+]);
+return response()->json(['success' => ' Updated successfully']);
+}
+
+
+
+
  #.........................................User_list.....................................#
    public function showusers()
    {
@@ -141,6 +174,20 @@ class Newcontroller extends Controller
     }
    }
 
+
+   public function User_detials($id)
+   {
+    $applications = Application::with(['jobs', 'organizations'])
+    ->where('u_id', $id) // current user
+    ->latest()
+    ->take(5)
+    ->get();
+
+    
+    $user = User::with('Application','feedback')->findOrFail($id);
+    $appcount=Application::where('u_id',$id)->count();
+    return view('admin.User_detials', compact('user','appcount','applications'));
+   }
 
    public function Totalemployers()
    {
@@ -304,7 +351,8 @@ class Newcontroller extends Controller
          'password'=>$pass,
          'phone'=>$ph,    
      ]);
-      return redirect()->route('loginpage')->with('message','Registered sucessfully');
+     session()->flash('message', 'Registeration sucessfull you can login now');
+      return redirect()->route('loginpage');
    }
 
 #......................................Show Login........................................#
@@ -493,30 +541,29 @@ public function storeExp(Request $exp)
     // return redirect()->route('user.profile')->with('message','Updated sucessfully');
 }
 
-#................................. Employer Approvel.............................................#
+#................................. user Reviews.............................................#
 
-
-public function Approve($value, $id)
+public function company($id)
 {
-    $org = Organization::findOrFail($id);
-    $message = '';
-
-    if ($value === '1') {
-        $org->update([
-            'is_approved' => 'approved',
-        ]);
-        $message = 'Organization approved successfully';
-    } elseif ($value === '0') {
-        $org->update([
-            'is_approved' => 'rejected',
-        ]);
-        $message = 'Organization rejected successfully';
-    }
-    
-    return redirect()->back()->with('message', $message);
+  $org=Organization::with('images')->findOrFail($id);
+  $reviews=Feedback::with('user')->where('og_id',$id)->get();
+  return view('Companydetials',compact('org','reviews'));
 }
 
-
-
+public function storeReview(Request $review)
+{
+    $uid = Auth::user()->user_id;
+    $review->validate([
+        'review'=>'required',
+        'rating'=>'required',
+    ]);
+    Feedback::create([
+        'usr_id' => $uid,
+        'og_id' => request('company_id'),
+        'review' => request('review'),
+        'rating' => request('rating'),
+    ]);
+    return response()->json(['success' => ' Review added successfully']);
+} 
 
 }

@@ -23,5 +23,8 @@ class Application extends Model
         return $this->belongsTo(Job::class, 'job_id', 'j_id');
     }
 
-    
+    public function organizations()
+    {
+        return $this->belongsTo(Organization::class, 'or_id', 'org_id');
+    }
 }

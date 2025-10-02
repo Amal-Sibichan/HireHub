@@ -12,7 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('feedbacks', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('rev_id');
+            $table->text('review');
+            $table->tinyInteger('rating');   
+            $table->unsignedBigInteger('usr_id');
+            $table->foreign('usr_id')->references('user_id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('og_id');
+            $table->foreign('og_id')->references('org_id')->on('Organizations')->onDelete('cascade');
             $table->timestamps();
         });
     }

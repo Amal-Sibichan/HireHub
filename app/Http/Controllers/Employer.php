@@ -8,22 +8,26 @@ use Illuminate\Http\Request;
 use App\Models\Organization;
 use App\Models\Job;
 use App\Models\User;
-
+use App\Models\Feedback;
 use App\Models\Application;
+use App\Models\OrgImages;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Pail\ValueObjects\Origin\Console;
 use Mockery\Generator\StringManipulation\Pass\Pass;
 use phpDocumentor\Reflection\Types\Mixed_;
 use Yajra\DataTables\Facades\DataTables;
-
+use Carbon\Carbon;
 class Employer extends Controller
 {
 
   public function index()
   {
     $jobs = Job::with('application')->where('org_id',Auth::guard('Organization')->user()->org_id)->get();
-      return view('Employer.Eindex',compact('jobs'));
+    $applications=Application::where('or_id',Auth::guard('Organization')->user()->org_id)->get();
+    $activeJobs =$jobs->filter(fn($job) => $job->due >= Carbon::now())->count();
+    $reviews=Feedback::with('user')->where('og_id',Auth::guard('Organization')->user()->org_id)->latest()->take(5)->get();
+      return view('Employer.Eindex',compact('jobs','reviews','applications','activeJobs'));
   }
     public function Showregister()
     {
@@ -62,7 +66,9 @@ class Employer extends Controller
    public function ogdetials($id)
    {
     $org=Organization::find($id);
-    return  view('admin.Org_detials', compact('org'));
+    $images=OrgImages::where('org_id',$id)->get();
+    $reviews=Feedback::where('og_id',$id)->get();
+    return  view('admin.Org_detials', compact('org','images','reviews'));
    }
 
   public function profile()
@@ -115,7 +121,17 @@ class Employer extends Controller
         $org->is_approved='waiting';
         $org->save();
       }
-    } 
+    }
+    if($update->hasFile('images')){
+      foreach($update->file('images') as $image){
+          $path = $image->store('organization_images', 'public');
+
+          OrgImages::create([
+              'org_id' => $us->org_id,
+              'image' => $path
+          ]);
+      }
+  }
    
     return response()->json(['success' => ' Updated successfully']);
     // return view('Employer.Empprofile',compact('org'));

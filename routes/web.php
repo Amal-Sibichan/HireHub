@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Newcontroller;
+use App\Http\Controllers\Mailcontroller;
+
 use App\Http\Middleware\Isloggedin;
 use App\Http\Controllers\Employer;
 use App\Http\Middleware\Emplogin;
@@ -16,8 +18,8 @@ Route::middleware(Isloggedin::class)->group(function () {
     Route::post('eduupdate', [Newcontroller::class, 'storeEdu'])->name('store.edu');
     Route::post('expupdate', [Newcontroller::class, 'storeExp'])->name('store.exp');
     Route::get('/admin', [Newcontroller::class, 'admin'])->name('admin');
-    Route::get('/approvel/{v}/{id}', [Newcontroller::class, 'Approve'])->name('org.approve');
-    Route::post('/reject', [Newcontroller::class, 'reject'])->name('org.reject');
+    Route::get('/approvel/{id}', [Mailcontroller::class, 'Approve'])->name('org.approve');
+    Route::post('/reject/{id}', [Mailcontroller::class, 'reject'])->name('org.reject');
 
 
     Route::get('/applay/{id}', [Newcontroller::class, 'job_application'])->name('u.applay');
@@ -27,11 +29,15 @@ Route::middleware(Isloggedin::class)->group(function () {
 
     Route::get('/Employers', [Newcontroller::class, 'Totalemployers'])->name('Employers');
     Route::get('/waitinglist', [Newcontroller::class, 'waitinglist'])->name('waitinglist');
+    Route::post('/reviews', [Newcontroller::class, 'storeReview'])->name('reviews.store');
+    Route::post('/addadmin', [Newcontroller::class, 'addadmin'])->name('addadmin');
+    Route::get('/User_detials/{id}', [Newcontroller::class, 'User_detials'])->name('User_detials');
+
 
     
 
 });
-
+Route::get('/company/detials/{id}', [Newcontroller::class, 'company'])->name('company.detials');
 Route::get('/job_details/{id}', [Newcontroller::class, 'job_details'])->name('job_details');
 Route::get('/', [Newcontroller::class, 'master'])->name('master');
 Route::get('User/index', [Newcontroller::class, 'Userindex'])->name('index');

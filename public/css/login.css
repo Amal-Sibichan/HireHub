@@ -6,16 +6,15 @@
 }
 
 body {
-	background: #f6f5f7;
+	background: linear-gradient(to left, #0077ff, #00c6ff);;
+	font-family: 'Montserrat', sans-serif;
+	margin: 0;
+	padding: 0;
+	min-height: 100vh;
 	display: flex;
 	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	font-family: 'Montserrat', sans-serif;
-	height: 100vh;
-	margin: -20px 0 50px;
+	align-items: flex-start;
 }
-
 h1 {
 	font-weight: bold;
 	margin: 0;
@@ -43,11 +42,20 @@ a {
 	text-decoration: none;
 	margin: 15px 0;
 }
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #0077ff;
+  }
+  .logo span {
+    color: #ff6600;
+  }
+  
 
 button {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid #e05500;
+	background-color: #e05500;
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
@@ -71,7 +79,7 @@ button.ghost {
 }
 
 form {
-	background-color: #FFFFFF;
+	background-color: #bdbdbde1;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -90,7 +98,7 @@ input {
 }
 
 .container {
-    background-color: #fff;
+    background-color: #ffffffb1;
 	background-image: -moz-linear-gradient();
     border-radius: 10px;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
@@ -164,9 +172,9 @@ input {
 }
 
 .overlay {
-	background: #fb246a;
-	background: -webkit-linear-gradient(to right, #0077b5, #fb246a);
-	background: linear-gradient(to right, #0077b5, #fb246a);
+	background: #f7f7f7;
+	background: -webkit-linear-gradient(to right, #0077ff, #00c6ff);
+	background: linear-gradient(to right, #0077ff, #00c6ff);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 0 0;
@@ -265,4 +273,65 @@ footer a {
 	color: #e74a3b !important;
 	font-size: 0.700rem;
 	margin-top: 0.25rem;
+}
+
+
+
+.page-wrapper {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 20px;
+}
+
+/* Banner Section */
+.banner {
+	width: 100%;
+	background: linear-gradient(to right, #0077ff, #00c6ff);
+	color: white;
+	text-align: center;
+	padding: 30px 20px;
+	margin-bottom: 20px;
+	border-radius: 8px;
+	box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.banner h1 {
+	margin: 0;
+	font-size: 28px;
+	font-weight: 700;
+}
+
+.banner p {
+	margin-top: 10px;
+	font-size: 16px;
+	font-weight: 300;
+}
+
+/* Flash Messages */
+.custom-alert {
+	background: #ffdddd;
+	color: #d8000c;
+	border: 1px solid #d8000c;
+	padding: 12px 20px;
+	border-radius: 5px;
+	width: 60%;
+	text-align: center;
+	font-size: 14px;
+	margin-bottom: 20px;
+	box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Container Styles (your original form box) */
+.container {
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+	position: relative;
+	overflow: hidden;
+	width: 768px;
+	max-width: 100%;
+	min-height: 480px;
+	margin-top: 250px; /* push down after banner & message */
 }

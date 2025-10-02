@@ -1,6 +1,6 @@
         
         <div class="edit-form">
-            <div id="message"></div>
+            <div id="updatemessage"></div>
             <h1>Edit Profile</h1>
             <form class="needs-validation" novalidate action="" method='post' enctype="multipart/form-data" id="profupdate">
                 @csrf
@@ -81,13 +81,20 @@
                         @enderror
                     </div>
                 </div>
+                <div class="form-section">
+                    <div class="form-group">
+                        <label for="summary">Images</label>
+                        <input type="file" name="images[]"  accept="image/*" multiple required>
+                        @error('images')
+                           <div class="text-danger small mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
                 <div class="form-group">
                     <button type="submit" class="btn">Save Changes</button>
                     <a href="#" class="btn btn-cancel " id="back">Cancel</a>
                 </div>
              </div>
-             
-               
             </form>
         </div>
   
@@ -106,13 +113,14 @@ $(document).ready(function() {
         processData: false,
         contentType: false,
         success:function(result){
-            $('#message').html('<div class="alert alert-success">'+result.success+'</div>'); 
+            $('#updatemessage').stop(true, true).hide().html('');
+            $('#updatemessage').html('<div class="alert alert-success">'+result.success+'</div>'); 
             $('html, body').animate({
-                        scrollTop: $('#message').offset().top - 20
+                        scrollTop: $('#updatemessage').offset().top - 20
                     }, 500);   
             setTimeout(function() {
-                $('#message').fadeOut('slow'); // or .slideUp('slow')
-            }, 500);
+                $('#updatemessage').fadeOut('slow'); // or .slideUp('slow')
+            }, 1000);
             $('#content-area').load("{{route('Emp.profile')}}");   
         },
         error:function(xhr){
@@ -122,7 +130,7 @@ $(document).ready(function() {
                     $(`[name="${key}"]`).after(`<span class="text-danger">${value[0]}</span>`);
                 });
                 $('html, body').animate({
-                        scrollTop: $('#message').offset().top - 20
+                        scrollTop: $('#updatemessage').offset().top - 20
                     }, 500);  
             }
         }

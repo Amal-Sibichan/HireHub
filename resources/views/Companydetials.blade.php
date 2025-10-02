@@ -27,7 +27,6 @@
     <button class="carouselnext">&#10095;</button>
   </div>
   @endif
-
   <!-- Company Details -->
   <div class="company-details">
     <h2>About the Company</h2>
@@ -37,21 +36,30 @@
       <li><strong>Location:</strong> {{ $org->city }}, {{ $org->state }}</li>
       <li><strong>Email:</strong> {{$org->email}}</li>
       <li><strong>Industry:</strong> Technology & Internet Services</li>
-      <li><strong>Identification info:</strong> <a href="{{ asset('storage/' . $org->identity) }}" target="_blank" class="btn btn-primary">view</a></li>
-
     </ul>
-    <div class="action-buttons ">
-    @if($org->is_approved === 'approved')
-      <a href="#" class="reject-btn" id="openRejectModal">Reject</a>
-    @else
-      <a href="{{ route('org.approve', ['id' => $org->org_id]) }}" class="accept-btn">Approve</a>
-      <a href="#" class="reject-btn" id="openRejectModal">Reject</a>
-    @endif
-  </div>
-  </div>
+@if(Auth::user())
+  <div class="add-review">
+  <h2>Submit a Review</h2>
+  <form id="reviewForm">
+    <input type="hidden" name="company_id" value="{{ $org->org_id }}">
+    <label for="reviewText">Your Review</label>
+    <textarea id="reviewText" name="review" placeholder="Write your review..." required></textarea>
 
-  <!-- User Reviews -->
-  @if($reviews->count() > 0) 
+    <label>Rating</label>
+    <div class="star-rating">
+      <span data-value="1">☆</span>
+      <span data-value="2">☆</span>
+      <span data-value="3">☆</span>
+      <span data-value="4">☆</span>
+      <span data-value="5">☆</span>
+    </div>
+    <input type="hidden" name="rating" id="reviewRating" required>
+    <button type="submit" class="submit-btn">Submit Review</button>
+  </form>
+</div>
+@endif  <!-- User Reviews -->
+
+@if($reviews->count() > 0) 
   <div class="reviews mt-5">
     <h2>User Reviews</h2>
     @foreach($reviews as $review)
@@ -64,19 +72,6 @@
       </div>
 @endif
 </section>
-
-<div class="modal" id="rejectModal">
-    <div class="modal-content">
-      <span class="close-btn" id="closeModal">&times;</span>
-      <h2>Reject Company</h2>
-      <form action="{{ route('org.reject', ['id' => $org->org_id]) }}" method="POST">
-        @csrf
-        <label for="reason">Reason for Rejection</label>
-        <textarea id="reason" name="reason" placeholder="Enter rejection reason..." required></textarea>
-        <button type="submit" class="submit-btn">Submit</button>
-      </form>
-    </div>
-  </div>
 
 <!-- Carousel Script -->
 <script>
@@ -101,25 +96,60 @@
     index--;
     showSlide(index);
   });
+
   setInterval(() => {
     index++;
     showSlide(index);
   }, 3000); 
-  $(document).on('click', '#openRejectModal', function () {
-  $('#rejectModal').css('display', 'flex');
+
+const reviewForm = document.getElementById("reviewForm");
+const reviewText = document.getElementById("reviewText");
+const reviewRatingInput = document.getElementById("reviewRating");
+const stars = document.querySelectorAll(".star-rating span");
+const reviewList = document.querySelector(".reviews ul");
+
+let selectedRating = 0;
+
+// Star selection
+stars.forEach(star => {
+  star.addEventListener("click", () => {
+    selectedRating = star.dataset.value;
+    reviewRatingInput.value = selectedRating;
+    stars.forEach(s => s.classList.remove("selected"));
+    for (let i = 0; i < selectedRating; i++) {
+      stars[i].classList.add("selected");
+    }
+  });
 });
 
-$(document).on('click', '#closeModal', function () {
-  $('#rejectModal').css('display', 'none');
+// AJAX submission
+reviewForm.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const formData = new FormData(reviewForm);
+
+  fetch("{{ route('reviews.store') }}", {
+    method: "POST",
+    headers: {
+      "X-CSRF-TOKEN": "{{ csrf_token() }}",
+    },
+    body: formData,
+  })
+  .then(res => res.json())
+  .then(data => {
+    if(data.success){
+      // Add review to page
+      const li = document.createElement("li");
+      li.textContent = "⭐️".repeat(selectedRating) +  "${reviewText.value}";
+      reviewList.prepend(li);
+
+      // Reset form
+      reviewForm.reset();
+      selectedRating = 0;
+      stars.forEach(s => s.classList.remove("selected"));
+    }
+  })
+  .catch(err => console.log(err));
 });
-
-$(document).on('click', function (e) {
-  if (e.target.id === 'rejectModal') {
-    $('#rejectModal').css('display', 'none');
-  }
-});
-
-
-
-  </script>
+</script>
   

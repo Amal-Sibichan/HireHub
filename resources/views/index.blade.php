@@ -29,10 +29,8 @@
   <section class="companies">
     <h2>Top Companies</h2>
     <div class="company-list">
-      <div class="company-card">Google</div>
-      <div class="company-card">Amazon</div>
-      <div class="company-card">Microsoft</div>
-      <div class="company-card">Apple</div>
-      <div class="company-card">Netflix</div>
+      @foreach($org as $x)
+      <div class="company-card dynamic-link" data-url="{{ route('company.detials', ['id' => $x->org_id]) }}">{{$x->name}}</div>
+      @endforeach
     </div>
   </section>

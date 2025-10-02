@@ -15,7 +15,6 @@
     <div class="brand">Hire<span>Hub</span></div>
     <ul>
       <li class=" dynamic-link" data-url="{{route('admin.index')}}"><i class="fas fa-home"></i> Dashboard </li>
-      <li><i class="fas fa-briefcase" ></i> Manage Jobs</li>
       <li class="dropdown">
   <div class="dropdown-toggle">
     <i class="fas fa-building"></i> Companies @if($waitingorg > 0)<i class="fa-solid fa-bell fa-xs" style="color: #d72619;"></i> @endif

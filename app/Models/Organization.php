@@ -58,5 +58,15 @@ class Organization extends Authenticatable
     {
         return $this->hasMany(Job::class, 'org_id');
     }
+
+    public function feedback()
+    {
+        return $this->hasMany(Feedback::class,'usr_id','user_id');
+
+    }
+    public function images()
+    {
+        return $this->hasMany(OrgImages::class,'org_id','org_id');
+    }
 }
 

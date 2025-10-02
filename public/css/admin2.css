@@ -11,6 +11,12 @@ body {
   color: #333;
 }
 
+.text-danger{
+  color: red;
+  font-size: small;
+}
+
+
 /* Sidebar */
 .sidebar {
   width: 220px;
@@ -331,6 +337,7 @@ body {
 .slides img {
   width: 100%;
   border-radius: 10px;
+  height: 400px;
 }
 .carouselprev, .carouselnext {
   position: absolute;
@@ -353,7 +360,7 @@ body {
   background: #fff;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 10px rgb(0, 0, 0);
 }
 .company-details h2 {
   margin-bottom: 15px;
@@ -453,4 +460,175 @@ body {
 }
 .close-btn:hover {
   color: red;
+}
+
+/* Review Form Container */
+.add-review {
+  margin: 20px 0;
+  background: #f9fafb;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.add-review h2 {
+  margin-bottom: 15px;
+  color: #0077ff;
+  font-size: 22px;
+}
+
+/* Labels and Textarea */
+.add-review label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.add-review textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  resize: none;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+/* Star Rating */
+.star-rating {
+  display: flex;
+  gap: 5px;
+  font-size: 24px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.star-rating span {
+  color: #ccc;
+  transition: color 0.2s;
+}
+
+.star-rating span.selected,
+.star-rating span.hover {
+  color: #ffcc00;
+}
+
+/* Submit Button */
+.add-review .submit-btn {
+  width: 100%;
+  padding: 12px;
+  background: #0077ff;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+
+.add-review .submit-btn:hover {
+  background: #0056b3;
+}
+
+/* User Details */
+.userdash-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  padding: 25px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.userdash-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.userdash-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 20px;
+  object-fit: cover;
+  border: 3px solid #007bff;
+}
+
+.userdash-name {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.userdash-role {
+  font-size: 1rem;
+  color: #777;
+}
+
+.userdash-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px 40px;
+  margin-bottom: 30px;
+}
+
+.userdash-details div {
+  font-size: 1rem;
+}
+
+.userdash-details strong {
+  color: #444;
+}
+
+.userdash-activities h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.userdash-activities ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.userdash-activities li {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s;
+}
+
+.userdash-activities li:hover {
+  background: #f1f1f1;
+}
+
+.userdash-activity-time {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+#addmessage {
+  display: none; /* hidden by default */
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  padding: 12px 20px;
+  margin: 15px 0;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-in-out;
+  position: relative;
 }
