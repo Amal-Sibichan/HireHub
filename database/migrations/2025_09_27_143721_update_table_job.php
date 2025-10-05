@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('jobs', function (Blueprint $table) {
-            $table->enum('type',['Full Time','Part Time','Internship'])->default('Full Time');
+            $table->enum('type',['Full Time','Part Time','Internship'])->default('Full Time'); 
             $table->enum('category',['IT','Health','Education','Finance','Marketing','Sales','HR','Other'])->default('IT');
         });
     }

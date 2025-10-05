@@ -1,68 +1,79 @@
-@extends('loginLayout')
-@section('content')
-<div class="container {{ isset($registerView) && $registerView ? 'right-panel-active' : '' }}" id="container">
-	<div class="form-container sign-up-container">
-		<form  action="{{route('u.register')}}" method='post' enctype="multipart/form-data">
-            @csrf
-			<h1>Create Account</h1>
-			<div class="social-container">
-				<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-				<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-				<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-			</div>
-			<span>or use your email for registration</span>
-			<input type="text" placeholder="Name" name="name" value="{{old('name')}}" required />
-                                     @error('name')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-			<input type="email" placeholder="Email"  name="email" value="{{old('email')}}" required />
-                                     @error('email')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-			<input type="number" placeholder="Phone"  name="pho" value="{{old('pho')}}" required />
-                                    @error('pho')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-             <input type="password" placeholder="Password"  name="pass"  required />
-                                    @error('pass')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-			<button onclick="">Sign Up</button>
-			<a href="{{route('Emp.register')}}">Register Organization </a>
-		</form>
-	</div>
-	<div class="form-container sign-in-container">
-		<form  action="{{route('u.login')}}" method='post' enctype="multipart/form-data">
-            @csrf
-			<h1>Sign in</h1>
-			<div class="social-container">
-				<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-				<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-				<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-			</div>
-			<span>or use your account</span>
-			<input type="email" name="Email" placeholder="Email" value="{{old('Email')}}" required/>
-			<input type="password"  name="Pass" placeholder="Password" />
-             @error('Pass')
-              <div class="text-danger small mt-1">{{ $message }}</div>
-              @enderror
-			<a href="#">Forgot your password?</a>
-			<button>Sign In</button>
-		</form>
-	</div>
-	<div class="overlay-container">
-		<div class="overlay">
-			<div class="overlay-panel overlay-left">
-				<h1>Welcome Back!</h1>
-				<p>To keep connected with us please login with your personal info</p>
-				<button class="ghost" id="signIn">Sign In</button>
-			</div>
-			<div class="overlay-panel overlay-right">
-				<h1>Hello, Friend!</h1>
-				<p>Enter your personal details and start journey with us</p>
-				<button class="ghost" id="signUp">Sign Up</button>
-			</div>
-		</div>
-	</div>
-</div>
-@endsection
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+</head>
+<body>
+<nav class="navbar">
+        <div class="logo">
+            <a href="#">Hire<span class="highlight">Hub</span></a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{route('master')}}">Home</a></li>
+            <li><a href="#">Browse Jobs</a></li>
+            <li><a href="#">Companies</a></li>
+            <li><a href="{{route('registerpage')}}">Register</a></li>
+        </ul>
+    </nav>
+@if(session('message'))
+        <div class="custom-alert" id="success-alert">
+            {{ session('message') }}
+        </div>
+    @endif
+    <div class="page-wrapper">
+        <div class="form-card">
+            <div class="form-section">
+                <h2 class="form-title">LOGIN TO YOUR ACCOUNT</h2>
+                <form action="{{route('u.login')}}" method="POST">
+                    @csrf
+                    <div class="input-field">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="Email" value="{{ old('email') }}" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                        @error('password')
+                            <div class="text-danger small mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <button type="submit" class="login-button">LOGIN NOW</button>
+                    <p class="alt-link">Don't have an account? <a href="{{route('registerpage')}}">Register here</a></p>
+					<p class="alt-link"> <a href="{{route('Emp.register')}}">Register as employer</a></p>
+
+                </form>
+            </div>
+            <div class="image-section">
+                </div>
+        </div>
+    </div>
+	<script>
+    // Pure JavaScript Method
+    document.addEventListener('DOMContentLoaded', function() {
+        const alert = document.getElementById('success-alert');
+        
+        if (alert) {
+            // Wait 3000 milliseconds (3 seconds) before starting the fade
+            setTimeout(function() {
+                // Add the 'faded' class to trigger the CSS fade-out effect
+                alert.classList.add('faded');
+                
+                // After the fade transition is complete (0.5s), remove the element entirely
+                // This ensures the element is gone from the page layout
+                setTimeout(function() {
+                    alert.remove();
+                }, 500); // This delay must match the CSS transition duration (0.5s)
+            }, 3000); // 3-second initial delay
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,11 +1,13 @@
-const signUpButton = document.getElementById('signUp');
-const signInButton = document.getElementById('signIn');
-const container = document.getElementById('container');
+$(document).ready(function(){
 
-signUpButton.addEventListener('click', () => {
-	container.classList.add("right-panel-active");
-});
-
-signInButton.addEventListener('click', () => {
-	container.classList.remove("right-panel-active");
+	$("#form-card").load(loginroute.login);
+	
+	$(document).on('click','.form-link',function(e){
+	e.preventDefault();
+	let url=$(this).data("url");
+	if(url){
+	$("#form-card").load(url);
+	}
+	});
+	
 });

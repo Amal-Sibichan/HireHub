@@ -71,10 +71,10 @@
   .logo {
     font-size: 24px;
     font-weight: bold;
-    color: #0077ff;
+    color: #1c65b8;
   }
   .logo span {
-    color: #ff6600;
+    color: #ee670d;
   }
   
   nav a {
@@ -92,7 +92,7 @@
   .hero {
     text-align: center;
     padding: 80px 20px;
-    background: linear-gradient(to right, #0077ff, #00c6ff);
+    background: linear-gradient(to right, #1c65b8, #10aad4);
     color: #fff;
     margin-top: 5px;
   }
@@ -112,7 +112,7 @@
 
   .search-bar button {
     padding: 10px 20px;
-    background: #ff6600;
+    background: #df600b;
     border: none;
     color: #fff;
     border-radius: 5px;
@@ -476,7 +476,7 @@ textarea {
 
 
 .profilebtn{
-  background-color: #ff6600;
+  background-color: #df600b;
   color: #ffffff;
   padding: 2px 2px;
   border: none;
@@ -712,7 +712,7 @@ textarea {
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 .review-card h3 {
-  color: #ff6600;
+  color: #df600b;
 }
 .review-card p {
   margin: 10px 0;

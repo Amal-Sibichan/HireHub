@@ -56,7 +56,6 @@ Route::post('/register', [Newcontroller::class, 'newuser'])->name('u.register');
 Route::get('/loginpage', [Newcontroller::class, 'loginpage'])->name('loginpage');
 Route::post('/login', [Newcontroller::class, 'login'])->name('u.login');
 
-
 Route::get('Orgdetials/{id}',[Employer::class,'ogdetials'])->name('Orgdetials');
 #Employer routes
 

@@ -39,20 +39,21 @@ class Employer extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'pho' => 'required',
-            'pass' => ['required',Password::min(8)
+            'phone' => 'required',
+            'password' => ['required',Password::min(8)
             ->mixedCase()
             ->letters()
             ->numbers()
             ->symbols()
             ->uncompromised()],
+            'confirmPassword'=>'required|same:password',
         ]);
 
         Organization::create([
         'name'=>request('name'),
         'email'=>request('email'),
-        'password'=>request('pass'),
-        'phone'=>request('pho'),    
+        'password'=>request('password'),
+        'phone'=>request('phone'),    
     ]);
      return redirect()->route('loginpage')->with('message','Registered sucessfully');
     }

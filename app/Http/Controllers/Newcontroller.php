@@ -191,7 +191,7 @@ return response()->json(['success' => ' Updated successfully']);
 
    public function Totalemployers()
    {
-    $organizations = Organization::all();
+    $organizations = Organization::whereNot('is_approved','ideal')->get();
     return DataTables::of($organizations)
     ->addColumn('action',function($row){
       $btn='<a href="#" data-id="'.$row->org_id.'"  class="btn btn-sm btn-primary" id="viewbtn">View</a>';
@@ -321,7 +321,7 @@ return response()->json(['success' => ' Updated successfully']);
 
    public function registerpage()
    {
-      return view('login', ['registerView' => true]);
+      return view('register');
    }
 
     #.........................................Create User.....................................#
@@ -331,19 +331,20 @@ return response()->json(['success' => ' Updated successfully']);
       $request->validate([
          'name'=>'required|max:255',
          'email'=>'required|email|unique:users,email',
-         'pho'=>'required|max:10|min:10',
-         'pass'=>['required',Password::min(8)
+         'Phone'=>'required|max:10|min:10',
+         'password'=>['required',Password::min(8)
               ->mixedCase()
               ->letters()
               ->numbers()
               ->symbols()
               ->uncompromised()
              ],
+             'confirmPassword'=>'required|same:password',
      ]);
      $name = request('name');
      $mail = request('email');
-     $pass = request('pass');
-     $ph = request('pho');
+     $pass = request('password');
+     $ph = request('Phone');
 
          User::create([
          'name'=>$name,
@@ -356,6 +357,11 @@ return response()->json(['success' => ' Updated successfully']);
    }
 
 #......................................Show Login........................................#
+ 
+ public function loginpartial()
+ {
+  return view('loginpartial');
+ }
 
    public function loginpage()
    {
@@ -368,10 +374,10 @@ return response()->json(['success' => ' Updated successfully']);
    {
       $request->validate([
          'Email'=>'required|email',
-         'Pass'=>'required',
+         'password'=>'required',
      ]);
      $mail = request('Email');
-     $pass = request('Pass');
+     $pass = request('password');
      $user = User::where('email', $mail)->first();
      if(Auth::attempt(['email'=>$mail,'password'=>$pass]))
      {
@@ -391,7 +397,7 @@ return response()->json(['success' => ' Updated successfully']);
      else
      {
       return back()->withErrors([
-        'Pass'=>"invalid credentials",
+        'password'=>"invalid credentials",
       ]);
      }
    }

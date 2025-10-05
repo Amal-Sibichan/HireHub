@@ -1,125 +1,85 @@
-@extends('loginLayout')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar">
+        <div class="logo">
+            <a href="#">Hire<span class="highlight">Hub</span></a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{route('master')}}">Home</a></li>
+            <li><a href="#">Browse Jobs</a></li>
+            <li><a href="#">Companies</a></li>
+            <li><a href="{{route('loginpage')}}">Login</a></li>
+        </ul>
+    </nav>
 
-@section('title', 'Register')
-@section('subtitle', 'Create your account to get started.')
-
-@section('content')
-    <form class="needs-validation" novalidate action="{{route('u.register')}}" method='post' enctype="multipart/form-data">
-        @csrf
-        
-        <div class="row g-4">
-                                <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control form-control-lg" id="name" name="name" value="{{old('name')}}" required>
-                                        <label for="name">Full Name</label>
-                                    </div>
-                                    @error('name')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-                                        <input type="email" class="form-control form-control-lg" id="email" name="email" value="{{old('email')}}" required>
-                                        <label for="email">Email Address</label>
-                                    </div>
-                                    @error('email')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-                                        <input type="password" class="form-control form-control-lg" id="pass" name="pass" required>
-                                        <label for="pass">Password</label>
-                                    </div>
-                                    @error('pass')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <!-- <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control form-control-lg" id="city" name="city" value="{{old('city')}}" required>
-                                        <label for="city">City</label>
-                                    </div>
-                                    @error('city')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div> -->
-
-                                <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-                                        <input type="number" class="form-control form-control-lg" id="pho" name="pho" value="{{old('pho')}}" required>
-                                        <label for="pho">Phone Number</label>
-                                    </div>
-                                    @error('pho')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-<!-- 
-                                <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control form-control-lg" id="zcode" name="zcode" value="{{old('zcode')}}" required>
-                                        <label for="zcode">Zip Code</label>
-                                    </div>
-                                    @error('zcode')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div> -->
-
-                                <!-- <div class="col-md-12">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control form-control-lg" id="add" name="add" value="{{old('add')}}" required>
-                                        <label for="add">Address</label>
-                                    </div>
-                                    @error('add')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div> -->
-
-                                <!-- <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" class="form-control form-control-lg" id="state" name="state" value="{{old('state')}}" required>
-                                        <label for="state">State</label>
-                                    </div>
-                                    @error('state')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div> -->
-
-                                <!-- <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="img" class="form-label">Upload Profile Picture</label>
-                                        <input type="file" class="form-control form-control-lg" id="img" name="img" required>
-                                        @error('img')
-                                            <div class="text-danger small mt-1">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div> -->
-<!-- 
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="res" class="form-label">Upload Resume</label>
-                                        <input type="file" class="form-control form-control-lg" id="res" name="res" required>
-                                        @error('res')
-                                            <div class="text-danger small mt-1">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div> -->
-
-                                <div class="col-12">
-                                    <button class="btn btn-primary btn-lg w-100" type="submit">Register</button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <div class="text-center mt-3">
-                            <p>Already have an account? <a href="{{route('loginpage')}}">Login here</a></p>
+    <div class="page-wrapper">
+        <div class="form-card">
+            
+            <div class="form-section">
+                <h2 class="form-title">REGISTRATION FORM</h2>
+                
+                <form action="{{route('u.register')}}" method="POST">
+                    @csrf
+                        <div class="input-field">
+                            <label for="Name">First Name</label>
+                            <input type="text" id="name" name="name" value="{{old('name')}}">
+                            @error('name')
+                                <div class="text-danger small mt-1">{{ $message }}</div>
+                            @enderror
                         </div>
+                    
+                    <div class="input-field">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" value="{{old('email')}}" required>
+                        @error('email')
+                            <div class="text-danger small mt-1">{{ $message }}</div>
+                        @enderror
                     </div>
-                </div>
+                    
+                    
+                        <div class="input-field">
+                            <label for="Phone">Phone</label>
+                            <input type="number" id="Phone" name="Phone" value="{{old('Phone')}}" required>
+                            @error('Phone')
+                                <div class="text-danger small mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    
+                    
+                    <div class="input-field">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                        @error('password')
+                            <div class="text-danger small mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    
+                    <div class="input-field">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                        @error('confirmPassword')
+                            <div class="text-danger small mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>               
+                    
+                    <button type="submit" class="register-button">REGISTER NOW</button>
+                    
+                    <p class="alt-link">Already have an account? <a href="{{route('loginpage')}}">Login here</a></p>
+                </form>
             </div>
+            
+            <div class="register-image-section">
+                </div>
         </div>
     </div>
-@endsection
+
+</body>
+</html>
