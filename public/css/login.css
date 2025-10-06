@@ -320,3 +320,112 @@ body {
 	animation: fadeInDown 0.5s ease-out;
 	align-items: center;
 }
+
+/* ------------------------------------------------------------------- */
+/* MODAL STYLES */
+/* ------------------------------------------------------------------- */
+.custom-modal {
+    /* Backdrop styles: covers the entire screen, initially hidden */
+    display: none; 
+    position: fixed;
+    z-index: 1050; /* Above the navbar (1000) */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6); /* Dark semi-transparent backdrop */
+    backdrop-filter: blur(3px);
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-modal.is-open {
+    display: flex; /* Show the modal */
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px; /* Slimmer than the main form card */
+    position: relative;
+    animation: zoomIn 0.3s ease-out; /* Entry animation */
+}
+
+/* Modal Typography */
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark-text);
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.modal-text {
+    font-size: 0.9rem;
+    color: var(--medium-text);
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.modal-close {
+    color: var(--medium-text);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+    color: var(--accent-color); /* Orange hover */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-button {
+    /* Reuse button styles but ensure they are full width */
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modal-button:hover {
+    background-color: #16539b;
+}
+
+/* Animation for the modal pop-up */
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Update the login form link style */
+.checkbox-group .forgot-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: auto; /* Pushes the link to the right */
+}
+.checkbox-group {
+    justify-content: space-between; /* Ensure space between checkbox and link */
+}

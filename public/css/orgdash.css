@@ -667,3 +667,157 @@ textarea {
   border: 1px solid #ccc;
   border-radius: 8px;
 }
+
+/* ==========================================================
+   FORM CONTAINER AND GENERAL STYLES
+   ========================================================== */
+
+   .hh-schedule-form-container {
+    max-width: 600px; /* Max width for the form card */
+    margin: 40px auto; /* Center the form on the page */
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Soft, modern shadow */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Title Styling */
+.hh-form-title {
+    font-size: 1.8rem;
+    color: #333333;
+    margin-bottom: 25px;
+    border-bottom: 3px solid #007bff; /* Primary color accent */
+    padding-bottom: 10px;
+    font-weight: 600;
+}
+
+/* Message area for success/error */
+#formmessage {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+    /* You might add specific styles here for success/error messages via JavaScript */
+}
+
+/* ==========================================================
+   FORM ELEMENTS AND INPUTS
+   ========================================================== */
+
+/* Form Group Layout */
+.hh-form-group {
+    margin-bottom: 20px;
+}
+
+/* Labels */
+.hh-form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555555;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* Form Controls (Inputs, Textarea, Select) */
+.hh-form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333333;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: #f9f9f9;
+}
+
+.hh-form-control:focus {
+    border-color: #007bff; /* Highlight on focus */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    outline: none;
+    background-color: #ffffff;
+}
+
+/* Textarea specific styling */
+.hh-form-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Select specific styling (to customize the dropdown appearance) */
+.hh-form-select {
+    appearance: none; /* Remove default arrow */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    padding-right: 40px; /* Make space for the custom arrow */
+}
+
+/* ==========================================================
+   LAYOUT AND RESPONISVENESS
+   ========================================================== */
+
+/* Time and Date/Time layout (side-by-side) */
+.hh-form-row {
+    display: flex;
+    gap: 20px; /* Space between the two elements */
+}
+
+.hh-form-row .hh-col-half {
+    flex: 1; /* Makes both groups take up equal space */
+}
+
+/* ==========================================================
+   BUTTON AND ERROR STYLES
+   ========================================================== */
+
+/* Submit Button */
+.hh-btn-schedule {
+    width: 100%;
+    padding: 15px;
+    background-color: #007bff; /* Primary Blue */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    margin-top: 10px;
+}
+
+.hh-btn-schedule:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.hh-btn-schedule:active {
+    transform: translateY(1px); /* Little press effect */
+}
+
+/* Error message styling (Laravel's @error) */
+.hh-text-danger {
+    color: #dc3545; /* Red for errors */
+    font-size: 0.85rem;
+    margin-top: 5px;
+    padding-left: 5px; /* Slight indentation */
+    font-weight: 500;
+}
+
+/* ==========================================================
+   MEDIA QUERIES (FOR MOBILE)
+   ========================================================== */
+
+@media (max-width: 500px) {
+    .hh-schedule-form-container {
+        margin: 20px 10px; /* Smaller margins on small screens */
+        padding: 20px;
+    }
+    .hh-form-row {
+        flex-direction: column; /* Stack date and time on small screens */
+        gap: 0;
+    }
+    .hh-form-group {
+        margin-bottom: 15px;
+    }
+}

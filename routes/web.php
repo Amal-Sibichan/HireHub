@@ -32,10 +32,6 @@ Route::middleware(Isloggedin::class)->group(function () {
     Route::post('/reviews', [Newcontroller::class, 'storeReview'])->name('reviews.store');
     Route::post('/addadmin', [Newcontroller::class, 'addadmin'])->name('addadmin');
     Route::get('/User_detials/{id}', [Newcontroller::class, 'User_detials'])->name('User_detials');
-
-
-    
-
 });
 Route::get('/company/detials/{id}', [Newcontroller::class, 'company'])->name('company.detials');
 Route::get('/job_details/{id}', [Newcontroller::class, 'job_details'])->name('job_details');
@@ -55,6 +51,16 @@ Route::get('/registerpage', [Newcontroller::class, 'registerpage'])->name('regis
 Route::post('/register', [Newcontroller::class, 'newuser'])->name('u.register');
 Route::get('/loginpage', [Newcontroller::class, 'loginpage'])->name('loginpage');
 Route::post('/login', [Newcontroller::class, 'login'])->name('u.login');
+
+Route::post('/resetpassword', [Mailcontroller::class, 'sendotp'])->name('password.send_otp');
+Route::post('/otpverify', [Mailcontroller::class, 'varifyotp'])->name('password.otp_varify');
+Route::post('/newpassword', [Mailcontroller::class, 'resetpassword'])->name('password.reset');
+
+
+
+
+
+
 
 Route::get('Orgdetials/{id}',[Employer::class,'ogdetials'])->name('Orgdetials');
 #Employer routes
@@ -78,6 +84,8 @@ Route::middleware(Emplogin::class)->group(function () {
     Route::get('joblist',[Employer::class,'jobs'])->name('Emp.jobs');
     Route::get('jobapplications',[Employer::class,'application'])->name('Emp.applicants');
     Route::get('Applicants/{id}/{jobId}',[Employer::class,'view_applicants'])->name('Emp.applicant.detials');
+    Route::get('jobSchedule/{id}/{jobId}/{appId}',[Employer::class,'jobSchedule'])->name('Emp.jobSchedule');
+    Route::post('interviewSchedule/{appid}',[Mailcontroller::class,'Schedule'])->name('Emp.interviewSchedule');
 
 
   

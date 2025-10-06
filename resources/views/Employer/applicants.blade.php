@@ -62,7 +62,8 @@
             <h2>Resume</h2>
             <!-- Option 1: Button -->
             <a href="{{ asset('resumes/johndoe.pdf') }}" target="_blank" class="resume-btn-unique">View Resume</a>
-            
+            <a href="#"  data-url="{{route('Emp.jobSchedule', ['id' => $applicant->email,'jobId' => $job->j_id,'appId' => $appid->app_id])}}" class=" nav-link btn btn-primary"> Accept </a>
+
             <!-- Option 2: Display Inline -->
             <div class="resume-preview-unique">
                 <iframe src="{{ asset('storage/'.$applicant->resume) }}" frameborder="0"></iframe>

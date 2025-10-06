@@ -284,7 +284,7 @@ class Employer extends Controller
     $applicant=User::with(['education','experience'])->findOrFail($id);
     $appid=Application::where('u_id',$id)->where('job_id',$jobId)->first();
     $job=Job::where('j_id',$appid->job_id)->first();
-    return view('Employer.applicants',compact('applicant','job'));
+    return view('Employer.applicants',compact('applicant','job','appid'));
   }
 
 
@@ -297,7 +297,15 @@ class Employer extends Controller
         Auth::guard('Organization')->logout();
         return redirect()->route('master');
     }
+   
 
+    public function jobSchedule($m,$j,$a)
+    {
+      $mail=$m;
+      $jobid=$j;
+      $appid=$a;
+      return view('Employer.accept-Email',compact('mail','jobid','appid'));
+    }
 
 
 
