@@ -47,7 +47,7 @@
                 <img src="{{ asset('storage/' . $job->Organization->logo) }}" alt="Tech Solutions Logo">
                 <h2>{{ $job->name}}</h2>
             </div>
-            <p><strong>Company:</strong> {{$job->Organization->name}}</p>
+            <p><strong>Company:</strong><a href="" class=" dynamic-link" data-url="{{ route('company.detials', ['id' => $job->Organization->org_id]) }}">{{$job->Organization->name}}</a> </p>
             <p><strong>Location:</strong>{{$job->city}}</p>
             <p><strong>Salary:</strong> ₹{{$job->salary}}</p>
             <p><strong>Category:</strong> {{$job->category}}</p>

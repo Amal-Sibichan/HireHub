@@ -3,11 +3,7 @@
   <section class="hero">
     <h1>Find Your Dream Job</h1>
     <p>Browse thousands of jobs from top companies around the world</p>
-    <div class="search-bar">
-      <input class="masterinput" type="text" placeholder="Job title or keyword">
-      <input class="masterinput" type="text" placeholder="Location">
-      <button>Search</button>
-    </div>
+    
   </section>
 
   <!-- Job Listings -->

@@ -18,7 +18,6 @@
     <nav>
       <a href="#" data-url="{{ route('index') }}" class=" dynamic-link">Home</a>
       <a href="#" data-url="{{ route('job_listing') }}" class=" dynamic-link"> Jobs </a>
-      <a href="#">Companies</a>
       @if(auth()->check())
       <a href="{{ route('logout') }}">Logout</a>
       @elseif(auth()->guard('Organization')->check())
@@ -34,10 +33,6 @@
 
  </div>
 
-  <!-- Footer -->
-  <footer>
-    <p>© 2025 JobFinder. All rights reserved.</p>
-  </footer>
   <!-- Bootstrap JS Bundle (if not already included) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -55,6 +50,73 @@
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/plugins.js') }}"></script>
 <script src="{{ asset('js/main.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const items = document.querySelectorAll('.carousel-item');
+    const dots = document.querySelectorAll('.carousel-nav .dot');
+    let currentIndex = 0;
+    const intervalTime = 5000; // Time in ms (5 seconds)
+    let autoSlideInterval;
+
+    /**
+     * Shows a specific slide and updates the active dot.
+     * @param {number} index - The index of the slide to show.
+     */
+    function showSlide(index) {
+        // Wrap index around if it goes out of bounds
+        if (index >= items.length) {
+            currentIndex = 0;
+        } else if (index < 0) {
+            currentIndex = items.length - 1;
+        } else {
+            currentIndex = index;
+        }
+
+        // 1. Hide all items and remove active class
+        items.forEach(item => {
+            item.classList.remove('active');
+            item.style.opacity = 0; // for fade effect
+        });
+
+        // 2. Remove active class from all dots
+        dots.forEach(dot => {
+            dot.classList.remove('active');
+        });
+
+        // 3. Show the current item and set it to active
+        items[currentIndex].classList.add('active');
+        items[currentIndex].style.opacity = 1; // for fade effect
+
+        // 4. Set the corresponding dot to active
+        dots[currentIndex].classList.add('active');
+    }
+
+    /** Starts the automatic sliding interval. */
+    function startAutoSlide() {
+        // Clear any existing interval to prevent duplicates
+        clearInterval(autoSlideInterval);
+        autoSlideInterval = setInterval(() => {
+            showSlide(currentIndex + 1);
+        }, intervalTime);
+    }
+
+    // --- Event Listeners for Dots ---
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            showSlide(index);
+            // Reset the auto-slide timer when a dot is clicked
+            startAutoSlide();
+        });
+    });
+
+    // --- Initialization ---
+    // 1. Initially show the first slide (which should already be styled as active in HTML/CSS)
+    showSlide(0);
+
+    // 2. Start the rotation
+    startAutoSlide();
+});
+</script>
 
 
 

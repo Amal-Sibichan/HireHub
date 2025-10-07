@@ -19,6 +19,7 @@ use function Laravel\Prompts\alert;
 
 class Mailcontroller extends Controller
 {
+    // function for sending email to organization after approvel
   public function Approve($id)
   {
     $org = Organization::findOrFail($id);
@@ -29,7 +30,9 @@ class Mailcontroller extends Controller
     return redirect()->back()->with('message', 'Approved and email is sent');
 }
 
-public function Reject(Request $request,$id)
+    // function for sending email to organization after rejection
+
+    public function Reject(Request $request,$id)
 {
     $org = Organization::findOrFail($id);
     $org->is_approved='rejected';
@@ -38,6 +41,8 @@ public function Reject(Request $request,$id)
     Mail::to($org->email)->send(new OrganizationRejectMail($org,$request->reason));
     return redirect()->back()->with('message', 'Rejected and email is sent');
 }
+
+    // function for sending otp to user for password reset
 
 public function sendotp(Request $request)
 {
@@ -53,6 +58,8 @@ public function sendotp(Request $request)
     Mail::to($request->email)->send(new forgetpassword($otp));
     return response()->json(['success' => ' otp sent successfully']);   
 }
+
+    // function for varify otp
 
 public function varifyotp(Request $req)
 {
@@ -75,6 +82,7 @@ public function varifyotp(Request $req)
     return response()->json(['success' => 'OTP verified']);
 }
 
+    // function for reset password
 
 public function resetpassword(Request $request)
 {
@@ -91,6 +99,8 @@ public function resetpassword(Request $request)
     return response()->json(['success' => 'Password reset successfully']);
 }
 
+// function for sending email for interview
+
 public function Schedule(Request $request,$appid)
 {
     $request->validate([ 
@@ -102,6 +112,9 @@ public function Schedule(Request $request,$appid)
     $row=Application::with('jobs','organizations','users')->find($appid);
     $record=$request->all();
     Mail::to($request->mail)->send(new scheduleMail($record,$row));
+    $row->update([
+        'status'=>'selected',
+    ]);
 
     return response()->json(['success' => 'Scheduled and email is sent']);
 }

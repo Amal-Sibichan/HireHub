@@ -14,8 +14,6 @@
         </div>
         <ul class="nav-links">
             <li><a href="{{route('master')}}">Home</a></li>
-            <li><a href="#">Browse Jobs</a></li>
-            <li><a href="#">Companies</a></li>
             <li><a href="{{route('loginpage')}}">Login</a></li>
         </ul>
     </nav>

@@ -11,6 +11,7 @@ class Application extends Model
          'u_id',
          'job_id',
          'or_id',
+         'status',
     ];
 
     public function users()

@@ -21,6 +21,8 @@ use Carbon\Carbon;
 class Employer extends Controller
 {
 
+  // function for employer dashboard
+
   public function index()
   {
     $jobs = Job::with('application')->where('org_id',Auth::guard('Organization')->user()->org_id)->get();
@@ -29,10 +31,15 @@ class Employer extends Controller
     $reviews=Feedback::with('user')->where('og_id',Auth::guard('Organization')->user()->org_id)->latest()->take(5)->get();
       return view('Employer.Eindex',compact('jobs','reviews','applications','activeJobs'));
   }
+
+  // function for employer register page
+
     public function Showregister()
     {
         return view('Employer.Eregister');
     }
+
+    // function for employer register
 
     public function save(Request $request)
     {
@@ -58,11 +65,14 @@ class Employer extends Controller
      return redirect()->route('loginpage')->with('message','Registered sucessfully');
     }
 
+    // function for employer dashboard
+
     public function dashboard()
     {
         return view('Employer.Emphome');
     }
 
+    // function for employer org details
 
    public function ogdetials($id)
    {
@@ -72,17 +82,25 @@ class Employer extends Controller
     return  view('admin.Org_detials', compact('org','images','reviews'));
    }
 
+   // function for employer profile
+
   public function profile()
   {
     $org=Auth::guard('Organization')->user();
     return view('Employer.Empprofile',compact('org'));
 
   }
+
+  // function for employer update profile form
+
   public function updateform()
   {
     $org=Auth::guard('Organization')->user();
     return view('Employer.update_profile',compact('org'));
   }
+
+  // function for employer update profile
+
   public function update(Request $update)
   {
     $update->validate([
@@ -136,8 +154,9 @@ class Employer extends Controller
    
     return response()->json(['success' => ' Updated successfully']);
     // return view('Employer.Empprofile',compact('org'));
-
   }
+
+  // function for employer job form
  
   public function jobform()
   {
@@ -159,6 +178,8 @@ class Employer extends Controller
         return redirect()->route('Emp.index');
     }
   }
+
+  // function for employer add job
 
   public function Add(Request $req)
   {
@@ -194,11 +215,16 @@ class Employer extends Controller
     // return redirect()->route('Emp.dashboard')->with('message','Registered sucessfully');
   }
 
+  // function for employer edit existing job form
+
   public function jobedit($id)
   {
     $job=Job::findOrFail($id);
     return view('Employer.jobedit',compact('job'));
   }
+
+
+  // function for employer edit existing job 
 
   public function jobeditupdate(Request $req)
   {
@@ -229,10 +255,15 @@ class Employer extends Controller
     return response()->json(['success' => 'Job updated successfully']);
   }
 
+
+  // function for employer job list
+
   public function showjobs()
   {
     return view('Employer.jobs');
   }
+
+  // function for employer job list data
 
   public function jobs()
   {
@@ -253,10 +284,14 @@ class Employer extends Controller
       ->make(true);
   }
 
+  // function for employer application page
+
   public function apppage()
   {
     return view('Employer.application');
   }
+
+  // function for employer application list
 
   public function applist($id)
   {
@@ -267,8 +302,12 @@ class Employer extends Controller
     ->addColumn('job_title', fn($app) => $app->jobs->name ?? 'N/A')
     ->addColumn('user_name', fn($app) => $app->users->name ?? 'N/A')
     ->addColumn('email', fn($app) => $app->users->email ?? 'N/A')
-    ->addColumn('action', fn($app) => '<a href="#" data-id="'.$app->u_id.'" data-job="'.$app->job_id.'" class="btn btn-sm btn-primary" id="applicants">Detials</a>')
-    ->filterColumn('user_name', function($query, $keyword) {
+    ->addColumn('action', function ($app) {
+      $button_text = ($app->status === "pending") ? 'Details' : 'Selected';
+      $button_class = ($app->status === "pending") ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-success';
+      return '<a href="#" data-id="'.$app->u_id.'" data-job="'.$app->job_id.'" class="' . $button_class . '" id="applicants">'.$button_text.'</a>';
+  })   
+   ->filterColumn('user_name', function($query, $keyword) {
       $query->whereHas('users', function($q) use ($keyword) {
           $q->where('name', 'like', "%{$keyword}%");
       });
@@ -278,7 +317,8 @@ class Employer extends Controller
      
   }
 
-   
+  // function for employer view applicants
+
   public function view_applicants($id,$jobId)
   {
     $applicant=User::with(['education','experience'])->findOrFail($id);
@@ -290,7 +330,7 @@ class Employer extends Controller
 
 
 
-
+  // function for employer logout
 
     public function logout()
     {
@@ -298,7 +338,8 @@ class Employer extends Controller
         return redirect()->route('master');
     }
    
-
+    // function for employer job schedule email
+    
     public function jobSchedule($m,$j,$a)
     {
       $mail=$m;
