@@ -23,6 +23,8 @@ $(document).ready(function() {
   });
 });
 
+
+
 $(document).on('click','#viewbtn',function(e){
     e.preventDefault();
     let jid=$(this).data("id");
@@ -55,6 +57,34 @@ $(document).on('click','#viewbtn',function(e){
       }
   });
 
+  $(document).on('click','#deletebtn',function(e){
+    e.preventDefault();
+    let jid = $(this).data("id");
+
+    if (jid) {
+        let url = "{{ route('Emp.jobdelete', ['id' => ':id']) }}".replace(':id', jid);
+
+        $.ajax({
+            url: url,
+            type: 'GET', 
+            dataType: 'json', 
+            success: function(data) {
+                if (data.success) {
+                    alert(data.success); 
+                    $('#content-area').load("{{route('Emp.showjobs')}}");
+
+                } else {
+                    alert('Deletion completed, but no success message was found.');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error deleting job:", error);
+                alert('An error occurred during deletion.');
+            }
+        });
+    }
+});
+
   $(document).on('click', '#back', function(e) {
   e.preventDefault();
   
@@ -63,5 +93,7 @@ $(document).on('click','#viewbtn',function(e){
     $('#content-area').html(viewHtml);
   });
 });
+
+
 
 </script>

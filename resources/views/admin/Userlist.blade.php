@@ -31,6 +31,34 @@ $(document).on('click','#viewbtn',function(e){
 
 });
 
+$(document).on('click','#deletebtn',function(e){
+    e.preventDefault();
+    let jid = $(this).data("id");
+
+    if (jid) {
+        let url = "{{ route('user_delete', ['id' => ':id']) }}".replace(':id', jid);
+
+        $.ajax({
+            url: url,
+            type: 'GET', 
+            dataType: 'json', 
+            success: function(data) {
+                if (data.success) {
+                    alert(data.success); 
+                    $('#admin-content').load("{{route('showusers')}}");
+
+                } else {
+                    alert('Deletion completed, but no success message was found.');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error deleting job:", error);
+                alert('An error occurred during deletion.');
+            }
+        });
+    }
+});
+
 
   $(document).on('click', '#back', function(e) {
   e.preventDefault();

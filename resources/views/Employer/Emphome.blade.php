@@ -22,8 +22,6 @@
             <li><a href="#"  data-url="{{route('Emp.index')}}" class="nav-link">🏠 Dashboard</a></li>
             <li><a href="#" data-url="{{route('Emp.showjobs')}}" class="nav-link">💼 My Jobs</a></li>
             <li><a href="#"  data-url="{{route('Emp.jobform')}}" class="nav-link">➕ Add Job</a></li>
-            <li><a href="#">👥 Applicants</a></li>
-            <li><a href="#">⭐ Reviews</a></li>
             <li class="dropdown">
   <div class="dropdown-toggle">
     <i class="fas fa-building"></i>{{Auth::guard('Organization')->user()->name}}

@@ -138,7 +138,13 @@ class Newcontroller extends Controller
 ]);
 return response()->json(['success' => ' Updated successfully']);
 }
-
+ #.........................................User_delete.....................................#
+public function userdelete($id)
+{
+  $record=User::findOrFail($id);
+  $record->delete();
+  return response()->json(['success' => 'Deleted successfully']);
+}
 
 
 
@@ -155,7 +161,9 @@ return response()->json(['success' => ' Updated successfully']);
     return DataTables::of($users)
     ->addColumn('action',function($row){
       $btn='<a href="#" data-id="'.$row->user_id.'"  class="btn btn-sm btn-primary" id="viewbtn">View</a>';
-      return $btn;
+      $btn2='<a href="#" data-id="'.$row->user_id.'"  class="btn btn-sm btn-danger ml-1" id="deletebtn">Delete</a>';
+
+      return $btn.$btn2;
     })
     ->rawColumns(['action'])
     ->make(true);

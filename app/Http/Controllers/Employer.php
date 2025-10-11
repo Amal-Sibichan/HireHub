@@ -278,12 +278,20 @@ class Employer extends Controller
       ->addColumn('action',function($row){
         $btn='<a href="#" data-id="'.$row->j_id.'"  class="btn btn-sm btn-primary" id="viewbtn">Applications</a>';
         $btn2='<a href="#" data-id="'.$row->j_id.'"  class="btn btn-sm btn-warning ml-1" id="editbtn">Edit</a>';
-        return $btn.$btn2;
+        $btn3='<a href="#" data-id="'.$row->j_id.'"  class="btn btn-sm btn-danger ml-1" id="deletebtn">Delete</a>';
+        return $btn.$btn2.$btn3;
       })
       ->rawColumns(['action','status'])
       ->make(true);
   }
 
+  public function jobdelete($id)
+  {
+    $record = Job::findOrFail($id);
+    $record->delete();
+    return response()->json(['success' => 'Deleted successfully']);
+
+  }
   // function for employer application page
 
   public function apppage()

@@ -26,7 +26,9 @@
       <a href="{{ route('loginpage') }}">Login</a>
       @endif
       <a href=" {{ route('contact') }}">Contact</a>
+      @if(auth()->check())
       <a href="#" data-url="{{ route('user.profile') }}" class=" dynamic-link"><i class="fa-solid fa-user" style="color: #63E6BE;"></i></a>
+      @endif
     </nav>
   </header>
 <div id="user-content">

@@ -32,6 +32,8 @@ Route::middleware(Isloggedin::class)->group(function () {
     Route::post('/reviews', [Newcontroller::class, 'storeReview'])->name('reviews.store');
     Route::post('/addadmin', [Newcontroller::class, 'addadmin'])->name('addadmin');
     Route::get('/User_detials/{id}', [Newcontroller::class, 'User_detials'])->name('User_detials');
+    Route::get('userdelete/{id}',[Newcontroller::class,'userdelete'])->name('user_delete');
+
 
     
 });
@@ -70,6 +72,8 @@ Route::middleware(Emplogin::class)->group(function () {
     Route::get('Employer/index',[Employer::class,'index'])->name('Emp.index');
     Route::get('jobedit/{id}',[Employer::class,'jobedit'])->name('Emp.jobedit');
     Route::post('jobedit/update',[Employer::class,'jobeditupdate'])->name('Emp.jobedit.update');
+    Route::get('jobdelete/{id}',[Employer::class,'jobdelete'])->name('Emp.jobdelete');
+
 
     Route::get('recentjobs',[Employer::class,'showjobs'])->name('Emp.showjobs');
     Route::get('joblist',[Employer::class,'jobs'])->name('Emp.jobs');
